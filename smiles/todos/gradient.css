@@ -1,0 +1,165 @@
+/* ==========================================
+   GRADIENT GENERATOR - WIITEMA LAB
+   ========================================== */
+
+.gr_container {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3vh;
+  width: 100%;
+  margin-top: 3vh;
+  margin-bottom: 5vh;
+}
+
+@media (max-width: 1100px) {
+  .gr_container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gr_preview_canvas {
+  background-image: radial-gradient(var(--brd) 1px, transparent 1px);
+  background-size: 16px 16px;
+  background-color: var(--bg6);
+  border: 1px solid var(--brd);
+  border-radius: 1.5vh;
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  padding: 3vh;
+  box-shadow: var(--bs_l);
+  transition: all var(--tr_m);
+}
+
+/* Glass card sandbox inside canvas */
+.gr_sandbox_card {
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 2vh;
+  padding: 4vh 3vh;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2.2vh;
+  color: #fff;
+  transition: all var(--tr_m);
+}
+
+.gr_sandbox_title {
+  font-size: var(--fz_m4);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.gr_sandbox_desc {
+  font-size: 12px;
+  opacity: 0.8;
+  line-height: 1.5;
+  margin: 0 0 1vh;
+}
+
+/* Dial Angle Knob styling */
+.gr_dial_knob_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5vh;
+}
+
+.gr_dial_knob {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--brd);
+  background: var(--bg5);
+  position: relative;
+  cursor: pointer;
+  box-shadow: var(--bs_m);
+  transition: border-color var(--tr_f);
+}
+
+.gr_dial_knob:hover {
+  border-color: var(--mco);
+}
+
+.gr_dial_pointer {
+  width: 3px;
+  height: 13px;
+  border-radius: 2px;
+  background: var(--mco);
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: 50% 15px;
+}
+
+/* Preset Cards grid */
+.gr_presets_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 2vh;
+}
+
+.gr_preset_card {
+  background: var(--bg5);
+  border: 1px solid var(--brd);
+  border-radius: 1.2vh;
+  padding: 1.2vh;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+  transition: all var(--tr_s);
+}
+
+.gr_preset_preview {
+  width: 100%;
+  height: 6.5vh;
+  border-radius: 0.8vh;
+  border: 1px solid var(--brd);
+}
+
+.gr_preset_card span {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--tx1);
+  text-align: center;
+}
+
+.gr_preset_card:hover {
+  border-color: var(--mco);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 243, 255, 0.08);
+}
+
+.gr_preset_card.selected {
+  border-color: var(--mco);
+  background: var(--bg3);
+  box-shadow: 0 0 0 2px var(--mco);
+}
+
+/* Stop slider tracks */
+.gr_stop_slider_wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.5vh;
+}
+
+.gr_color_preview_pill {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--brd);
+  box-shadow: var(--bs_m);
+}

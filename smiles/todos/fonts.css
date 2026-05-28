@@ -1,0 +1,160 @@
+/* ==========================================
+   TYPOGRAPHY LAB - WIITEMA LAB
+   ========================================== */
+
+.fn_container {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3vh;
+  width: 100%;
+  margin-top: 3vh;
+  margin-bottom: 5vh;
+}
+
+@media (max-width: 1100px) {
+  .fn_container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fn_slider_group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8vh;
+}
+
+.fn_slider_header {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fz_s3);
+  font-weight: 700;
+  color: var(--tx2);
+}
+
+.fn_range_slider {
+  width: 100%;
+  border-radius: 1vh;
+  height: 1.2vh;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background: var(--bg5);
+  border: 1px solid var(--brd);
+}
+
+.fn_range_slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 2.2vh;
+  height: 2.2vh;
+  border-radius: 50%;
+  background: var(--mco);
+  border: 2px solid var(--wb);
+  cursor: pointer;
+  box-shadow: var(--bs_m);
+  transition: transform var(--tr_f);
+}
+
+.fn_range_slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Weight selection pills */
+.fn_weight_grid {
+  display: flex;
+  gap: 0.8vh;
+  flex-wrap: wrap;
+}
+
+.fn_weight_pill {
+  flex: 1;
+  min-width: 60px;
+  background: var(--bg5);
+  border: 1px solid var(--brd);
+  color: var(--tx1);
+  font-size: var(--fz_s3);
+  font-weight: 700;
+  padding: 0.8vh 1.2vh;
+  border-radius: 0.8vh;
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--tr_m);
+}
+
+.fn_weight_pill.active {
+  background: var(--mco);
+  color: #fff;
+  border-color: var(--mco);
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.25);
+}
+
+/* Playground Preview */
+.fn_preview_area {
+  min-height: 45vh;
+  padding: 3vh;
+  border-radius: 1.2vh;
+  background: var(--bg6);
+  border: 1px solid var(--brd);
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+  transition: all var(--tr_m);
+}
+
+.fn_hero_title {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.fn_subheading {
+  margin: 0;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.fn_paragraph {
+  margin: 0;
+  line-height: 1.6;
+  opacity: 0.75;
+}
+
+.fn_codeblock_pre {
+  background: #111420;
+  border: 1px solid #2d3a52;
+  border-radius: 0.8vh;
+  padding: 2vh;
+  color: #c7d2fe;
+  font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 0;
+  position: relative;
+}
+
+/* Specimen variations side-by-side */
+.fn_specimen_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2.5vh;
+}
+
+.fn_specimen_card {
+  background: var(--bg5);
+  border: 1px solid var(--brd);
+  border-radius: 1vh;
+  padding: 2vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vh;
+}
+
+.fn_specimen_header {
+  font-size: var(--fz_s2);
+  font-weight: 800;
+  color: var(--tx3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--brd);
+  padding-bottom: 0.6vh;
+}

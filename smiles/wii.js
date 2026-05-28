@@ -1,0 +1,28 @@
+// INFORMACIÓN DEL APP 
+export let id = 'wiitema'
+export let app = 'WiiTema'
+export let icon = 'fa-palette'
+export let titulo = 'WiiTema - Diseño Premium para la Experiencia Wii';
+export let keywii = 'diseño, tema, wii, premium, personalización, interfaz';
+export let descri = 'Plataforma de diseño premium que mejora la experiencia visual y de usuario de las aplicaciones Wii con temas modernos y personalizables.';
+export let linkweb = 'https://wiitema.web.app'; // Sin slash (/), al final
+export let lanzamiento = 2026;
+export let by = '@wilder.taype';
+export let linkme = 'https://wtaype.github.io/';
+export let ipdev = import.meta.env.VITE_DEV;
+export let version = 'v1'; // Siempre va "v" para estructura
+
+/** ACTUALIZAR AL TAG POR SEGURIDAD [TAG NUEVO] (1)
+git tag v10 -m "Version v10" ; git push origin v10
+
+ACTUALIZACIÓN AL MAIN PRINCIPAL DEL PROYECTO [MAIN] (2)
+git add . ; git commit -m "Actualizacion Principal v10.10.10" ; git push origin main
+
+// REEMPLAZAR TAG DE SEGURIDAD EXISTENTE [TAG REMPLAZO] (3)
+git tag -d v10 ; git tag v10 -m "Version v10 actualizada" ; git push origin v10 --force
+
+// Actualizar versiones de seguridad [ELIMINAR CARPETA - ARCHIVO ONLINE] (4)
+git rm --cached skills-lock.json ; git commit -m "Archivo Eliminado" ; git push origin main
+git rm -r --cached .claude/ ; git commit -m "Carpeta Eliminada" ; git push origin main 
+git tag -d 10 ; git push origin --delete 10 // Eliminar tag del local y remoto.
+ ACTUALIZACION TAG[END] */

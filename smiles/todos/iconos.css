@@ -1,0 +1,214 @@
+/* ==========================================
+   ICONS VAULT - WIITEMA LAB
+   ========================================== */
+
+.ic_container {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 3vh;
+  width: 100%;
+  margin-top: 3vh;
+  margin-bottom: 5vh;
+}
+
+@media (max-width: 1100px) {
+  .ic_container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ic_search_wrap {
+  position: relative;
+  width: 100%;
+  margin-bottom: 2.5vh;
+}
+
+.ic_search_wrap i {
+  position: absolute;
+  left: 2vh;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--tx3);
+  font-size: var(--fz_m1);
+}
+
+.ic_search_input {
+  width: 100%;
+  padding: 1.5vh 2vh 1.5vh 5.5vh;
+  font-size: var(--fz_m1);
+  border-radius: 1.2vh;
+  border: 1px solid var(--brd);
+  background: var(--inp);
+  color: var(--tx1);
+  outline: none;
+  font-weight: 700;
+  transition: all var(--tr_m);
+}
+
+.ic_search_input:focus {
+  border-color: var(--mco);
+  box-shadow: 0 0 12px rgba(0, 243, 255, 0.25);
+}
+
+/* Icon Grid */
+.ic_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+  gap: 2vh;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 1vh;
+}
+
+.ic_grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ic_grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ic_grid::-webkit-scrollbar-thumb {
+  background: var(--brd);
+  border-radius: 4px;
+}
+
+.ic_card {
+  background: var(--bg5);
+  border: 1px solid var(--brd);
+  border-radius: 1.2vh;
+  padding: 2.2vh 1.5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5vh;
+  cursor: pointer;
+  transition: all var(--tr_s);
+  text-align: center;
+  position: relative;
+}
+
+.ic_card i {
+  font-size: 28px;
+  color: var(--tx1);
+  transition: all var(--tr_s);
+}
+
+.ic_card span {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--tx2);
+  word-break: break-word;
+}
+
+.ic_card:hover {
+  background: var(--bg3);
+  border-color: var(--mco);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 243, 255, 0.12);
+}
+
+.ic_card:hover i {
+  color: var(--mco);
+  transform: scale(1.15);
+}
+
+.ic_card.selected {
+  background: var(--bg3);
+  border-color: var(--mco);
+  box-shadow: 0 0 0 2px var(--mco);
+}
+
+.ic_card.selected i {
+  color: var(--mco);
+}
+
+/* Detail Drawer (Right panel) */
+.ic_detail_panel {
+  display: flex;
+  flex-direction: column;
+  gap: 2.2vh;
+  position: sticky;
+  top: 3vh;
+}
+
+.ic_display_box {
+  background: var(--bg6);
+  border: 1px solid var(--brd);
+  border-radius: 1.5vh;
+  padding: 4vh 2vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.2vh;
+}
+
+.ic_display_icon {
+  font-size: 72px;
+  color: var(--mco);
+  filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.3));
+  animation: pulseIcon 2s infinite ease-in-out;
+}
+
+@keyframes pulseIcon {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.ic_display_name {
+  font-size: var(--fz_m2);
+  font-weight: 800;
+  color: var(--tx1);
+}
+
+.ic_code_row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6vh;
+}
+
+.ic_code_label {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--tx3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ic_code_field {
+  display: flex;
+  background: #111420;
+  border: 1px solid #2d3a52;
+  border-radius: 0.8vh;
+  overflow: hidden;
+  height: 4.5vh;
+}
+
+.ic_code_field input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #c7d2fe;
+  font-family: monospace;
+  font-size: 11px;
+  padding: 0 1.5vh;
+  outline: none;
+  pointer-events: none;
+}
+
+.ic_copy_btn {
+  background: #2d3a52;
+  border: none;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0 1.5vh;
+  cursor: pointer;
+  transition: background var(--tr_f);
+}
+
+.ic_copy_btn:hover {
+  background: var(--mco);
+}

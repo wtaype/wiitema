@@ -1,0 +1,730 @@
+/* ==========================================
+   COLOR CENTER - WIITEMA LAB - v1
+   Estilos premium para la herramienta de color
+   ========================================== */
+
+.colores_container {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3vh;
+  width: 100%;
+  margin-top: 3vh;
+  margin-bottom: 5vh;
+}
+
+/* Force hide for tab containers and elements to prevent CSS grid/flex specificity overrides */
+.dpn {
+  display: none !important;
+}
+
+@media (max-width: 1100px) {
+  .colores_container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── MÓDULOS COMUNES DE TARJETA (LAB CARDS) ── */
+.lab_card {
+  background: var(--wb);
+  border: 1px solid var(--brd);
+  border-radius: 1.5vh;
+  padding: 2.5vh;
+  box-shadow: var(--bs_l);
+  display: flex;
+  flex-direction: column;
+  gap: 2.2vh;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--tr_m);
+}
+
+.lab_card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-dia);
+}
+
+:root[data-theme="Futuro"] .lab_card::before {
+  background: var(--gradient-noche);
+}
+
+.lab_card_title {
+  font-size: var(--fz_m4);
+  font-weight: 800;
+  color: var(--tx1);
+  display: flex;
+  align-items: center;
+  gap: 1.2vh;
+  border-bottom: 1px solid var(--brd);
+  padding-bottom: 1.2vh;
+}
+
+.lab_card_title i {
+  color: var(--mco);
+}
+
+.lab_desc {
+  font-size: var(--fz_s3);
+  color: var(--tx3);
+  line-height: 1.5;
+}
+
+/* ── COLUMNA IZQUIERDA: INPUTS & CAPTURA ── */
+.input_section {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+}
+
+/* Tab de selección de entrada: Pegar Texto o Subir Imagen */
+.input_tabs {
+  display: flex;
+  background: var(--bg5);
+  padding: 0.6vh;
+  border-radius: 1vh;
+  gap: 0.5vh;
+}
+
+.tab_btn {
+  flex: 1;
+  padding: 1.2vh;
+  font-size: var(--fz_m1);
+  font-weight: 700;
+  color: var(--tx2);
+  border-radius: 0.8vh;
+  background: transparent;
+  transition: all var(--tr_s);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vh;
+}
+
+.tab_btn:hover {
+  color: var(--mco);
+  background: var(--bg6);
+  transform: none;
+}
+
+.tab_btn.active {
+  background: var(--wb);
+  color: var(--mco);
+  box-shadow: 0 0.2vh 0.5vh rgba(0,0,0,0.06);
+}
+
+/* Contenido de Tabs */
+.tab_content {
+  display: none;
+  transition: opacity var(--tr_m);
+}
+
+.tab_content.active {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+/* Zona de pegado de código */
+.textarea_wrapper {
+  position: relative;
+}
+
+.color_textarea {
+  min-height: 18vh;
+  font-family: 'Consolas', monospace;
+  font-size: var(--fz_s4);
+  line-height: 1.5;
+  border-radius: 1vh;
+  padding: 1.8vh;
+  background: var(--inp);
+  color: var(--tx);
+  border: 1px solid var(--brd);
+}
+
+/* Subida de Imagen & Canvas */
+.drag_zone {
+  border: 2px dashed var(--brd);
+  background: var(--inp);
+  border-radius: 1.2vh;
+  padding: 4vh 2vh;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--tr_m);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5vh;
+}
+
+.drag_zone:hover, .drag_zone.dragover {
+  border-color: var(--mco);
+  background: var(--bg4);
+}
+
+.drag_zone i {
+  font-size: var(--fz_l2);
+  color: var(--mco);
+  animation: float-slow 3s ease-in-out infinite;
+}
+
+.drag_zone p {
+  font-size: var(--fz_s3);
+  font-weight: 600;
+  color: var(--tx2);
+  margin: 0;
+}
+
+.drag_zone span {
+  font-size: var(--fz_s1);
+  color: var(--tx3);
+}
+
+/* Contenedor del Canvas de Imagen */
+.canvas_outer_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5vh;
+  width: 100%;
+}
+
+.canvas_container {
+  position: relative;
+  width: 100%;
+  max-height: 40vh;
+  border-radius: 1.2vh;
+  overflow: hidden;
+  border: 1px solid var(--brd);
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas_container canvas {
+  max-width: 100%;
+  max-height: 40vh;
+  display: block;
+  cursor: crosshair;
+}
+
+/* Magnifying Loupe (Lupa) */
+.pixel_loupe {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  pointer-events: none;
+  display: none;
+  z-index: 10;
+  background-repeat: no-repeat;
+  background-color: #000;
+  image-rendering: pixelated;
+}
+
+.pixel_loupe::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
+}
+
+/* Centro de lupa: la mira o punto de mira */
+.pixel_loupe_cross {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: #ff3849;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.canvas_bar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  gap: 1.5vh;
+}
+
+/* Color Picker Directo */
+.picker_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5vh;
+  background: var(--bg5);
+  padding: 0.8vh 1.5vh;
+  border-radius: 0.8vh;
+  border: 1px solid var(--brd);
+}
+
+.picker_wrapper label {
+  font-size: var(--fz_s3);
+  font-weight: 700;
+  color: var(--tx2);
+}
+
+.custom_color_input {
+  width: 3.5vh;
+  height: 3.5vh;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: none;
+}
+
+.custom_color_input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.custom_color_input::-webkit-color-swatch {
+  border: 1px solid var(--brd);
+  border-radius: 50%;
+}
+
+/* ── COLUMNA DERECHA: RECONOCIMIENTO Y PROCESADO ── */
+.output_section {
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+}
+
+/* Cuadrícula de Colores Detectados */
+.grid_colors_detected {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1.5vh;
+  max-height: 35vh;
+  overflow-y: auto;
+  padding-right: 0.5vw;
+}
+
+.color_chip_card {
+  background: var(--inp);
+  border: 1px solid var(--brd);
+  border-radius: 1vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--tr_f);
+  position: relative;
+  cursor: pointer;
+}
+
+.color_chip_card:hover {
+  transform: translateY(-0.3vh);
+  box-shadow: 0 0.5vh 1vh rgba(0,0,0,0.08);
+  border-color: var(--mco);
+}
+
+.color_chip_card.selected {
+  border-color: var(--mco);
+  box-shadow: 0 0 0 2px var(--mco);
+}
+
+.color_preview_block {
+  height: 8vh;
+  width: 100%;
+  position: relative;
+}
+
+.color_copy_overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: var(--fz_m2);
+  transition: opacity var(--tr_f);
+}
+
+.color_chip_card:hover .color_copy_overlay {
+  opacity: 1;
+}
+
+.color_info_footer {
+  padding: 1.2vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5vh;
+}
+
+.color_hex_val {
+  font-family: 'Consolas', monospace;
+  font-size: var(--fz_s3);
+  font-weight: 700;
+  color: var(--tx1);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Botones rápidos en el chip */
+.color_quick_actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  border-top: 1px solid var(--brd);
+  padding: 0.4vh;
+  background: var(--bg5);
+}
+
+.quick_act_btn {
+  background: transparent;
+  border: none;
+  border-radius: 0.4vh;
+  padding: 0.4vh;
+  font-size: var(--fz_s1);
+  color: var(--tx3);
+  cursor: pointer;
+  transition: all var(--tr_f);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quick_act_btn:hover {
+  background: var(--mco);
+  color: #fff;
+  transform: none;
+}
+
+/* ── MESA DE TRABAJO INTERACTIVA (WORKBENCH PREVIEW) ── */
+.workbench_wrapper {
+  background: var(--bg4);
+  border: 1px dashed var(--mco);
+  border-radius: 1.2vh;
+  padding: 2.2vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.workbench_title {
+  font-size: var(--fz_s3);
+  font-weight: 800;
+  color: var(--tx2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workbench_preview_card {
+  --w-bg: var(--wb);
+  --w-primary: var(--mco);
+  --w-accent: #00f3ff;
+  --w-text: var(--tx);
+  
+  background: var(--w-bg);
+  color: var(--w-text);
+  border: 1px solid var(--brd);
+  border-radius: 1.2vh;
+  padding: 2.5vh;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  transition: all var(--tr_m);
+  position: relative;
+}
+
+.wb_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--brd);
+  padding-bottom: 1.5vh;
+}
+
+.wb_brand {
+  font-size: var(--fz_m2);
+  font-weight: 800;
+  color: var(--w-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.8vh;
+}
+
+.wb_badge {
+  background: var(--w-accent);
+  color: #000;
+  font-size: var(--fz_s1);
+  font-weight: 800;
+  padding: 0.2vh 0.8vh;
+  border-radius: 1vh;
+  text-transform: uppercase;
+}
+
+.wb_content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vh;
+}
+
+.wb_h3 {
+  font-size: var(--fz_m3);
+  font-weight: 700;
+}
+
+.wb_p {
+  font-size: var(--fz_s3);
+  opacity: 0.8;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--w-text);
+}
+
+.wb_btn {
+  background: var(--w-primary);
+  color: #fff;
+  border: none;
+  border-radius: 0.8vh;
+  padding: 1vh 2vh;
+  font-weight: 700;
+  font-size: var(--fz_s3);
+  cursor: pointer;
+  transition: all var(--tr_f);
+  text-align: center;
+  align-self: flex-start;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.wb_btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+/* Indicador de qué colores están configurados actualmente */
+.wb_active_colors {
+  display: flex;
+  gap: 1.5vh;
+  flex-wrap: wrap;
+  font-size: var(--fz_s2);
+  border-top: 1px solid var(--brd);
+  padding-top: 1.5vh;
+}
+
+.wb_color_label {
+  display: flex;
+  align-items: center;
+  gap: 0.6vh;
+  background: var(--bg5);
+  padding: 0.4vh 1vh;
+  border-radius: 0.5vh;
+  font-weight: 600;
+}
+
+.wb_color_circle {
+  width: 1.2vh;
+  height: 1.2vh;
+  border-radius: 50%;
+  border: 1px solid var(--brd);
+}
+
+/* ── ARMONÍAS & PALETAS AUTOMÁTICAS ── */
+.harmonies_container {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.harmony_row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8vh;
+}
+
+.harmony_title {
+  font-size: var(--fz_s3);
+  font-weight: 700;
+  color: var(--tx2);
+}
+
+.harmony_chips {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1vh;
+  border-radius: 0.8vh;
+  overflow: hidden;
+}
+
+.harmony_chip {
+  height: 4.5vh;
+  position: relative;
+  cursor: pointer;
+  transition: transform var(--tr_f);
+  border-radius: 0.5vh;
+  border: 1px solid var(--brd);
+}
+
+.harmony_chip:hover {
+  transform: scale(1.05);
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.harmony_chip_tooltip {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #000;
+  color: #fff;
+  font-family: 'Consolas', monospace;
+  font-size: 0.65rem;
+  padding: 0.2vh 0.6vh;
+  border-radius: 0.4vh;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--tr_f);
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.harmony_chip:hover .harmony_chip_tooltip {
+  opacity: 1;
+}
+
+/* ── EXPORTADOR DE CÓDIGO ── */
+.exporter_card {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.code_panel {
+  position: relative;
+  width: 100%;
+}
+
+.code_pre {
+  background: #111420;
+  color: #c7d2fe;
+  padding: 2.2vh;
+  border-radius: 1vh;
+  font-family: 'Consolas', monospace;
+  font-size: var(--fz_s4);
+  line-height: 1.5;
+  overflow-x: auto;
+  border: 1px solid #2d3a52;
+}
+
+.btn_copy_code {
+  position: absolute;
+  top: 1vh;
+  right: 1vh;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+  border-radius: 0.5vh;
+  padding: 0.6vh 1.2vh;
+  font-size: var(--fz_s2);
+  cursor: pointer;
+  transition: all var(--tr_f);
+}
+
+.btn_copy_code:hover {
+  background: var(--mco);
+  border-color: var(--mco);
+  transform: scale(1.05);
+}
+
+/* ── ANIMS ── */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.8vh); }
+}
+
+/* ── OVERLAYS PARA ARMONÍAS HSL MÁS DINÁMICAS ── */
+.harmony_overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  opacity: 0;
+  transition: opacity var(--tr_f);
+  z-index: 3;
+}
+
+.harmony_chip:hover .harmony_overlay {
+  opacity: 1;
+}
+
+.harmony_act_btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 10px;
+  cursor: pointer;
+  padding: 3px;
+  transition: all var(--tr_f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.harmony_act_btn:hover {
+  color: var(--mco);
+  transform: scale(1.25);
+}
+
+/* ── BOTONES E INPUTS ADICIONALES PARA TEMAS ── */
+.theme_var_color_picker {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.theme_var_color_picker::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.theme_var_color_picker::-webkit-color-swatch {
+  border: 1px solid var(--brd);
+  border-radius: 50%;
+}
+
+/* Estilos Premium para el Edit Pencil Overlay en Grilla */
+.color_edit_picker_wrapper {
+  opacity: 0;
+  transform: scale(0.7);
+  transition: all var(--tr_f) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.color_chip_card:hover .color_edit_picker_wrapper {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.color_edit_picker_wrapper:hover {
+  background: var(--mco) !important;
+  border-color: var(--mco) !important;
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.color_edit_picker_wrapper:hover i {
+  color: #fff !important;
+}
+

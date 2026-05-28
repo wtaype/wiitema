@@ -1,0 +1,159 @@
+/* ==========================================
+   SMART COMBO PLAYGROUND - WIITEMA LAB
+   ========================================== */
+
+.sm_container {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 3vh;
+  width: 100%;
+  margin-top: 3vh;
+  margin-bottom: 5vh;
+}
+
+@media (max-width: 1100px) {
+  .sm_container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sm_sandbox_canvas {
+  background-image: radial-gradient(var(--brd) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-color: var(--bg6);
+  border: 1px solid var(--brd);
+  border-radius: 1.5vh;
+  padding: 4vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: var(--bs_l);
+  min-height: 60vh;
+}
+
+.sm_sandbox_card {
+  width: 100%;
+  max-width: 580px;
+  background: var(--wb);
+  border: 1px solid var(--brd);
+  border-radius: 2.2vh;
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--bs_l);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 6vh 4vh 12vh; /* Extra padding bottom for waves */
+  transition: all var(--tr_m);
+}
+
+.sm_sandbox_card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: var(--gradient-dia);
+}
+
+.sm_sandbox_icon_wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--bg5);
+  border: 1px solid var(--brd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3vh;
+  box-shadow: var(--bs_m);
+  transition: all var(--tr_m);
+}
+
+.sm_sandbox_icon_wrapper i {
+  font-size: 32px;
+  color: var(--mco);
+  filter: drop-shadow(0 0 8px rgba(0, 243, 255, 0.4));
+}
+
+.sm_sandbox_title {
+  margin: 0 0 2vh;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--tx1);
+}
+
+.sm_sandbox_subtitle {
+  font-size: var(--fz_s4);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--mco);
+  margin-bottom: 1.5vh;
+}
+
+.sm_sandbox_paragraph {
+  margin: 0 0 4vh;
+  font-size: 13.5px;
+  color: var(--tx2);
+  line-height: 1.6;
+}
+
+.sm_sandbox_button_row {
+  display: flex;
+  gap: 2vh;
+  z-index: 10;
+}
+
+.sm_sandbox_btn_primary {
+  padding: 1.2vh 2.5vh;
+  font-size: var(--fz_s3);
+  font-weight: 800;
+  border-radius: 0.8vh;
+  border: none;
+  background: var(--mco);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 243, 255, 0.25);
+  transition: all var(--tr_f);
+}
+
+.sm_sandbox_btn_outline {
+  padding: 1.2vh 2.5vh;
+  font-size: var(--fz_s3);
+  font-weight: 800;
+  border-radius: 0.8vh;
+  border: 1px solid var(--tx2);
+  background: transparent;
+  color: var(--tx1);
+  cursor: pointer;
+  transition: all var(--tr_f);
+}
+
+.sm_sandbox_btn_primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 243, 255, 0.4);
+}
+
+.sm_sandbox_btn_outline:hover {
+  background: var(--bg5);
+  border-color: var(--tx1);
+}
+
+.sm_wave_anchor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sm_wave_anchor svg {
+  width: 100%;
+  display: block;
+}

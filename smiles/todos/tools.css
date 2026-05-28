@@ -1,0 +1,130 @@
+/* ==========================================
+   DESIGN TOOLS - CURATED DOCK
+   ========================================== */
+
+.tl_container {
+  width: 100%;
+  margin-top: 3vh;
+  margin-bottom: 5vh;
+}
+
+.tl_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 3vh;
+  margin-top: 3vh;
+}
+
+.tl_card {
+  background: var(--wb);
+  border: 1px solid var(--brd);
+  border-radius: 1.5vh;
+  padding: 2.5vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8vh;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: all var(--tr_m);
+  box-shadow: var(--bs_l);
+}
+
+.tl_card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--gradient-dia);
+  opacity: 0.7;
+}
+
+.tl_card:hover {
+  transform: translateY(-5px);
+  border-color: var(--mco);
+  box-shadow: 0 10px 25px rgba(0, 243, 255, 0.15);
+}
+
+.tl_card_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tl_card_icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--bg5);
+  border: 1px solid var(--brd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tl_card_icon i {
+  font-size: 20px;
+  color: var(--mco);
+}
+
+.tl_badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 0.4vh 1vh;
+  border-radius: 0.6vh;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--bg5);
+  border: 1px solid var(--brd);
+  color: var(--tx3);
+}
+
+.tl_card_title {
+  font-size: var(--fz_m2);
+  font-weight: 800;
+  color: var(--tx1);
+  margin: 0;
+}
+
+.tl_card_desc {
+  font-size: var(--fz_s3);
+  color: var(--tx2);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Expert Tip Box */
+.tl_tip_box {
+  background: var(--bg6);
+  border: 1px solid var(--brd);
+  border-radius: 0.8vh;
+  padding: 1.2vh 1.5vh;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--tx3);
+  position: relative;
+  margin-top: auto;
+}
+
+.tl_tip_box strong {
+  color: var(--mco);
+}
+
+.tl_link_indicator {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--mco);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1vh;
+  transition: all var(--tr_f);
+}
+
+.tl_card:hover .tl_link_indicator {
+  gap: 12px;
+  color: var(--hva);
+}

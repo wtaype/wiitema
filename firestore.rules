@@ -14,6 +14,7 @@ service cloud.firestore {
     // Rol: displayName == usuario == doc ID en smiles (único por diseño en login.js)
     function getRol()   { return get(/databases/$(database)/documents/smiles/$(request.auth.token.name)).data.rol; }
     function isAdmin()  { return isAuth() && getRol() == 'admin'; }                // solo admin
+    function isGestor() { return isAuth() && getRol() in ['gestor','admin']; }     // gestor o admin
     function isEditor() { return isAuth() && getRol() in ['editor','gestor','admin']; } // editor, gestor o admin
 
     // ── SMILES (perfiles de usuario) ───────────────────────────────────────────

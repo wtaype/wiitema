@@ -7,22 +7,22 @@ export const rolPage = { usuario: '/mensajes', editor: '/smile', gestor: '/gesto
 
 // ── NAV COMUN — rutas compartidas entre todos los roles ────────────────────────
 const COMUN = [
-  { href: '/colores', page: 'colores', ico: 'fa-palette', txt: 'Colores' },
-  { href: '/fonts', page: 'fonts', ico: 'fa-font', txt: 'Fonts' },
-  { href: '/gradient', page: 'gradient', ico: 'fa-circle-half-stroke', txt: 'Gradientes' },
-  { href: '/iconos', page: 'iconos', ico: 'fa-icons', txt: 'Iconos' },
-  { href: '/svg', page: 'svg', ico: 'fa-image', txt: 'SVG' },
-  { href: '/smart', page: 'smart', ico: 'fa-wand-magic-sparkles', txt: 'Smart' },
-  { href: '/emojis', page: 'emojis', ico: 'fa-face-smile', txt: 'Emojis' },
-  { href: '/tools', page: 'tools', ico: 'fa-hammer', txt: 'Tools' },
-  // { href: '/acerca', page: 'acerca', ico: 'fa-circle-info', txt: 'Acerca' }
+  { href: '/colores', ico: 'fa-palette', txt: 'Colores' },
+  { href: '/fonts', ico: 'fa-font', txt: 'Fonts' },
+  { href: '/gradient', ico: 'fa-circle-half-stroke', txt: 'Gradientes' },
+  { href: '/iconos', ico: 'fa-icons', txt: 'Iconos' },
+  { href: '/svg', ico: 'fa-image', txt: 'SVG' },
+  { href: '/smart', ico: 'fa-wand-magic-sparkles', txt: 'Smart' },
+  { href: '/emojis', ico: 'fa-face-smile', txt: 'Emojis' },
+  { href: '/tools', ico: 'fa-hammer', txt: 'Tools' },
+  // { href: '/acerca', ico: 'fa-circle-info', txt: 'Acerca' }
 ];
 
 // ── NAV — Config visual por rol (nvleft = izquierda, nvright = derecha) ────────
 export const NAV = {
   todos: {
     nvleft:  [
-      { href: '/', page: 'inicio', ico: 'fa-house', txt: 'Bienvenido' },
+      { href: '/', ico: 'fa-house', txt: 'Bienvenido' },
       ...COMUN],
     nvright: [
       { isBtn: true, cls: 'bt_auth registrar', ico: 'fa-user-plus', txt: 'Registrar' },
@@ -31,33 +31,35 @@ export const NAV = {
   },
   usuario: {
     nvleft: [
-      { href: '/smile',    page: 'smile',    ico: 'fa-house',            txt: 'Dashboard' },
+      { href: '/smile',    ico: 'fa-house',            txt: 'Dashboard' },
       ...COMUN,
+      { href: '/zmas',     ico: 'fa-ellipsis',         txt: 'Más' },
     ],
     nvright: [
-      { href: '/mensajes',     page: 'mensajes',     ico: 'fa-comments',         txt: 'Mensajes' },
+      { href: '/mensajes',     ico: 'fa-comments',         txt: 'Mensajes' },
       { isPerfil: true }, { isSalir: true },
     ],
   },
   editor: {
     nvleft: [
       ...COMUN,
+      { href: '/zmas',     ico: 'fa-ellipsis',         txt: 'Más' },
     ],
     nvright: [
-      { href: '/chat',     page: 'chat',     ico: 'fa-comments',         txt: 'Chat Grupal' },
-      { href: '/mensajes',     page: 'mensajes',     ico: 'fa-comments',         txt: 'Mensajes' },
+      { href: '/chat',     ico: 'fa-comments',         txt: 'Chat Grupal' },
+      { href: '/mensajes',     ico: 'fa-comments',         txt: 'Mensajes' },
       { isPerfil: true }, { isSalir: true },
     ],
   },
   gestor: {
     nvleft: [
-      { href: '/gestor',   page: 'gestor',   ico: 'fa-house',            txt: 'Dashboard'    },
-      { href: '/crear',    page: 'crear',    ico: 'fa-plus-circle',      txt: 'Mis Linkwiis' },
-      { href: '/agregar',  page: 'agregar',  ico: 'fa-folder-plus',      txt: 'Mis Recursos' },
-      { href: '/win',      page: 'win',      ico: 'fa-file-shield',      txt: 'wiWin Cloud' },
-      { href: '/word',     page: 'word',     ico: 'fa-file-lines',       txt: 'Word Editor' },
-      { href: '/chat',     page: 'chat',     ico: 'fa-comments',         txt: 'Chat Grupal' },
-      ...COMUN,
+      { href: '/gestor',   ico: 'fa-house',            txt: 'Dashboard'    },
+      { href: '/crear',    ico: 'fa-plus-circle',      txt: 'Mis Linkwiis' },
+      { href: '/agregar',  ico: 'fa-folder-plus',      txt: 'Mis Recursos' },
+      { href: '/win',      ico: 'fa-file-shield',      txt: 'wiWin Cloud' },
+      { href: '/word',     ico: 'fa-file-lines',       txt: 'Word Editor' },
+      { href: '/chat',     ico: 'fa-comments',         txt: 'Chat Grupal' },
+      { href: '/zmass',     ico: 'fa-ellipsis',         txt: 'Más' },
     ],
     nvright: [
       { isPerfil: true }, { isSalir: true },
@@ -65,15 +67,16 @@ export const NAV = {
   },
   admin: {
     nvleft: [
-      { href: '/admin',    page: 'admin',    ico: 'fa-globe',            txt: 'Plataforma' },
-      { href: '/usuarios', page: 'usuarios', ico: 'fa-users',            txt: 'Usuarios'   },
-      { href: '/sistema',  page: 'sistema',  ico: 'fa-cogs',             txt: 'Sistema'    },
-      { href: '/chat',     page: 'chat',     ico: 'fa-comments',         txt: 'Chat Grupal' },
+      { href: '/admin',    ico: 'fa-globe',            txt: 'Plataforma' },
+      { href: '/usuarios', ico: 'fa-users',            txt: 'Usuarios'   },
+      { href: '/sistema',  ico: 'fa-cogs',             txt: 'Sistema'    },
+      { href: '/chat',     ico: 'fa-comments',         txt: 'Chat Grupal' },
+      { href: '/zmasss',   ico: 'fa-ellipsis',         txt: 'Más' },
     ],
     nvright: [
-      { href: '/word',     page: 'word',     ico: 'fa-file-lines',       txt: 'Word Editor' },
-      { href: '/nuevo',    page: 'nuevo',    ico: 'fa-plus',             txt: 'Crear Post' },
-      { href: '/notas',    page: 'notas',    ico: 'fa-book',             txt: 'Book Notas' },
+      { href: '/word',     ico: 'fa-file-lines',       txt: 'Word Editor' },
+      { href: '/nuevo',    ico: 'fa-plus',             txt: 'Crear Post' },
+      { href: '/notas',    ico: 'fa-book',             txt: 'Book Notas' },
       { isPerfil: true }, { isSalir: true },
     ],
   },
@@ -123,13 +126,16 @@ export const RUTAS = [
   { path: '/word',     area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
   { path: '/chat',     area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
   { path: '/nuevo',    area: 'todos/blog/', roles: ['usuario','editor','gestor','admin'] },
+  { path: '/zmas',     area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
 
   // ── Autenticadas (roles superiores / gestor & admin) ───────────────────────────────────────────────
   { path: '/gestor',   area: 'gestor/',  roles: ['gestor','admin'] },
+  { path: '/zmass',    area: 'gestor/',   roles: ['gestor','admin'] },
   { path: '/admin',    area: 'admin/',   roles: ['admin']          },
   { path: '/usuarios', area: 'admin/',   roles: ['admin']          },
   { path: '/sistema',  area: 'admin/',   roles: ['admin']          },
-  { path: '/verificar',area: 'admin/verificar/',roles: ['admin']          },
+  { path: '/verificar',area: 'admin/verificar/',roles: ['admin'] },
+  { path: '/zmasss', area: 'admin/',    roles: ['admin']          },
 ];
 
 // ── GLOB — Vite mapea todos los módulos en build time ───────────────────────────────────────────────

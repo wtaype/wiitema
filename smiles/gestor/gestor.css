@@ -1,0 +1,201 @@
+/* ── GESTOR DASHBOARD ─────────────────────────────────── */
+.g_wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3vh 2vw 6vh;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  animation: ini_fromBottom 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+/* ── HEADER ───────────────────────────────────────────── */
+.g_header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--wb);
+  border: 1px solid var(--brd);
+  border-radius: 16px;
+  padding: 22px 28px;
+}
+
+.g_avatar {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: var(--bg4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  color: var(--mco);
+  flex-shrink: 0;
+}
+
+.g_welcome h1 {
+  font-size: var(--fz_m5);
+  font-weight: 850;
+  color: var(--tx);
+  margin: 0 0 4px;
+}
+
+.g_welcome p {
+  font-size: var(--fz_s3);
+  color: var(--tx3);
+  margin: 0;
+}
+
+/* ── KPI CARDS ────────────────────────────────────────── */
+.g_kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.g_kpi_card {
+  background: var(--wb);
+  border: 1px solid var(--brd);
+  border-radius: 14px;
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: border-color var(--tr_m), transform var(--tr_m), box-shadow var(--tr_m);
+}
+
+.g_kpi_card:hover {
+  border-color: var(--mco);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px var(--bg5);
+}
+
+.g_kpi_ico {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--gc, var(--mco)) 14%, transparent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  color: var(--gc, var(--mco));
+  flex-shrink: 0;
+}
+
+.g_kpi_info h3 {
+  font-size: var(--fz_l1);
+  font-weight: 850;
+  color: var(--tx);
+  margin: 0 0 2px;
+}
+
+.g_kpi_info span {
+  font-size: var(--fz_s3);
+  color: var(--tx3);
+  font-weight: 600;
+}
+
+/* ── MAIN CONTENT ─────────────────────────────────────── */
+.g_content_grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.g_card_main {
+  background: var(--wb);
+  border: 1px solid var(--brd);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.g_card_head {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--brd);
+  background: var(--bg6);
+}
+
+.g_card_head h2 {
+  font-size: var(--fz_m3);
+  font-weight: 800;
+  color: var(--tx);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.g_card_head h2 i { color: var(--mco); }
+
+/* ── TABLE ────────────────────────────────────────────── */
+.g_table_wrap { overflow-x: auto; }
+
+.g_table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fz_s3);
+}
+
+.g_table thead tr {
+  background: var(--bg4);
+}
+
+.g_table th {
+  padding: 11px 20px;
+  text-align: left;
+  font-size: var(--fz_s4);
+  font-weight: 700;
+  color: var(--tx3);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+}
+
+.g_table tbody tr {
+  border-top: 1px solid var(--brd);
+  transition: background var(--tr_f);
+}
+
+.g_table tbody tr:hover { background: var(--bg4); }
+
+.g_table td {
+  padding: 13px 20px;
+  color: var(--tx2);
+  vertical-align: middle;
+}
+
+/* ── BADGES ───────────────────────────────────────────── */
+.g_badge_pts {
+  display: inline-block;
+  background: color-mix(in srgb, var(--mco) 14%, transparent);
+  color: var(--mco);
+  font-weight: 700;
+  font-size: var(--fz_s4);
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+.g_status_badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: var(--fz_s4);
+  font-weight: 700;
+}
+
+.g_status_badge.success {
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  color: var(--success);
+}
+
+.g_status_badge.warning {
+  background: color-mix(in srgb, #FFDA34 18%, transparent);
+  color: #b89100;
+}
+
+/* ── EMPTY / DENIED ───────────────────────────────────── */
+.g_page { padding: 6vh 2vw; }
+.g_empty {
+  background: var(--wb);
+  border: 1px solid var(--brd);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  color: var(--tx3);
+  font-size: var(--fz_m2);
+}

@@ -1,0 +1,1 @@
+var e=`WiiTema`,t=`fa-palette`,n=`diseño, tema, wii, premium, personalización, interfaz`,r=`Plataforma de diseño premium que mejora la experiencia visual y de usuario de las aplicaciones Wii con temas modernos y personalizables.`,i=`https://wiitema.web.app`,a=2026,o=`@wilder.taype`,s=`https://wtaype.github.io/`;export{n as a,i as c,t as i,o as n,a as o,r,s,e as t};

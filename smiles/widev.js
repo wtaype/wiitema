@@ -441,3 +441,26 @@ export function getsaves(sel, attr, fn) {
     if (val) fn($(this), val);
   });
 }
+
+// RATE LIMIT v1.0 — Freno de intentos por acción ─────────────────────────
+export function wiRateLimit(key, max = 5, hasta = 'dia') {
+  const K = `limiteHoy_${key}`;
+  let s = (() => { try { return JSON.parse(localStorage.getItem(K)); } catch { return null; } })() ?? { n: 0, bloqueadoHasta: 0 };
+  if (Date.now() < s.bloqueadoHasta) {
+    const min = Math.ceil((s.bloqueadoHasta - Date.now()) / 60000);
+    return { ok: false, min, fail: () => {}, reset: () => localStorage.removeItem(K) };
+  }
+  if (s.bloqueadoHasta > 0) s = { n: 0, bloqueadoHasta: 0 };
+  return {
+    ok: true, min: 0,
+    fail() {
+      if (++s.n >= max) {
+        const d = new Date();
+        s.bloqueadoHasta = hasta === 'dia' ? (d.setHours(24, 0, 0, 0), d.getTime()) : Date.now() + hasta;
+        s.n = 0;
+      }
+      localStorage.setItem(K, JSON.stringify(s));
+    },
+    reset: () => localStorage.removeItem(K)
+  };
+}

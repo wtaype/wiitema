@@ -1,13 +1,13 @@
 import $ from 'jquery';
 import { getls, wiSmart } from './widev.js';
-import { rutas } from './rutas.js';
+import { rutas, ROL_PATH } from './rutas.js';
 
 // ── RUTAS PROFESIONAL DE ACUERDO A ROLES  ─────────────────────────────
 rutas.registerAll(() => getls('wiSmile')?.rol);
 
 rutas.register('/', (isPre = false) => {
   const u = getls('wiSmile');
-  if (u && !isPre) setTimeout(() => rutas.navigate(({smile:'/smile',gestor:'/gestor',admin:'/admin'})[u.rol]||'/smile'), 0);
+  if (u && !isPre) setTimeout(() => rutas.navigate(ROL_PATH[u.rol] || '/smile'), 0);
   return rutas.inicio();
 });
 rutas.init();

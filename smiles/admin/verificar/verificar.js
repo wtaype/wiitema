@@ -1,8 +1,8 @@
 import './verificar.css';
 import $ from 'jquery';
-import { rutas } from '../rutas.js';
-import { Mensaje, wiAuth, getls } from '../widev.js';
-import { db, auth } from '../firebase.js';
+import { rutas } from '../../rutas.js';
+import { Mensaje, wiAuth, getls } from '../../widev.js';
+import { db, auth } from '../../firebase.js';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
@@ -158,7 +158,7 @@ function _iniciarTimer() {
       localStorage.removeItem('vault_expire');
       Mensaje('Sesión cerrada por inactividad', 'error');
       
-      const { salir } = await import('../todos/login.js');
+      const { salir } = await import('../../todos/login.js');
       await salir();
     }
   };

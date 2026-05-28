@@ -3,6 +3,8 @@ import { app, titulo, descri, keywii, linkweb } from './wii.js';
 import { Notificacion, wiPath, wiFade } from './widev.js';
 import * as inicioMod from './todos/inicio.js';
 
+export const ROL_PATH = { smile: '/smile', gestor: '/gestor', admin: '/admin' };
+
 // ── NAV COMUN — rutas compartidas entre todos los roles ────────────────────────
 const COMUN = [
   // { href: '/acerca', page: 'acerca', ico: 'fa-circle-info', txt: 'Acerca' }
@@ -106,15 +108,15 @@ export const RUTAS = [
   { path: '/contacto',   area: 'todos/acerca/' },
 
   // ── Autenticadas (colaborador / smile) ───────────────────────────────────────────────
-  { path: '/agregar',  area: 'smile/', roles: ['smile','gestor','admin'] },
-  { path: '/smile',    area: 'smile/', roles: ['smile','gestor','admin'] },
-  { path: '/crear',    area: 'smile/', roles: ['smile','gestor','admin'] },
-  { path: '/win',      area: 'smile/', roles: ['smile','gestor','admin'] },
-  { path: '/notas',    area: 'smile/', roles: ['smile','gestor','admin'] },
-  { path: '/perfil',   area: 'smile/', roles: ['smile','gestor','admin'] },
-  { path: '/mensajes', area: 'smile/', roles: ['smile','gestor','admin'] },
-  { path: '/word',     area: 'smile/', roles: ['smile','gestor','admin'] },
-  { path: '/chat',     area: 'smile/', roles: ['smile','gestor','admin'] },
+  { path: '/agregar',  area: 'usuarios/', roles: ['smile','gestor','admin'] },
+  { path: '/smile',    area: 'usuarios/', roles: ['smile','gestor','admin'] },
+  { path: '/crear',    area: 'usuarios/', roles: ['smile','gestor','admin'] },
+  { path: '/win',      area: 'usuarios/', roles: ['smile','gestor','admin'] },
+  { path: '/notas',    area: 'usuarios/', roles: ['smile','gestor','admin'] },
+  { path: '/perfil',   area: 'usuarios/', roles: ['smile','gestor','admin'] },
+  { path: '/mensajes', area: 'usuarios/', roles: ['smile','gestor','admin'] },
+  { path: '/word',     area: 'usuarios/', roles: ['smile','gestor','admin'] },
+  { path: '/chat',     area: 'usuarios/', roles: ['smile','gestor','admin'] },
   { path: '/nuevo',    area: 'todos/blog/', roles: ['smile','gestor','admin'] },
 
   // ── Autenticadas (roles superiores / gestor & admin) ───────────────────────────────────────────────
@@ -122,12 +124,12 @@ export const RUTAS = [
   { path: '/admin',    area: 'admin/',   roles: ['admin']          },
   { path: '/usuarios', area: 'admin/',   roles: ['admin']          },
   { path: '/sistema',  area: 'admin/',   roles: ['admin']          },
-  { path: '/verificar',area: 'verificar/',roles: ['admin']          },
+  { path: '/verificar',area: 'admin/verificar/',roles: ['admin']          },
 ];
 
 // ── GLOB — Vite mapea todos los módulos en build time ───────────────────────────────────────────────
 const MODS = import.meta.glob([
-  './{todos,smile,gestor,admin,verificar}/**/*.js',
+  './{todos,usuarios,gestor,admin}/**/*.js',
   '!./todos/inicio.js',
   '!./todos/chatwil/head/**/*.js',
   '!./todos/chatwil/memoria.js',

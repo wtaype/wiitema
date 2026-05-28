@@ -1,19 +1,39 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
-  
-    // Regla general: requiere auth
-    match /{document=**} {
-      allow read, write: if request.auth != null; 
+
+    // Regla general para otras colecciones (requiere auth)
+    match /{col}/{doc=**} {
+      allow read, write: if request.auth != null && col != 'smiles';
     }
 
-    // Colección de perfiles, publico crea y valida si hay usuarios disponibles, actualizar y eliminar solo smile 
-    match /smiles/{document} {
-      allow read: if true;
-      allow create: if true;
-      allow update: if request.auth != null;
+    // Colección de perfiles 'smiles' (usuarios, gestores y admins)
+    match /smiles/{u} {
+      // Público puede consultar perfiles específicos (username check)
+      allow get: if true;
+      
+      // Público/Dueño listan con límite máximo de 3 (evita descargas masivas)
+      allow list: if request.query.limit <= 5;
+      
+      // Público se registra normal (inicia con rol usuario)
+      allow create: if request.resource.data.rol == 'usuario';
+      
+      // Dueño actualiza su propio perfil (usuario/gestor) sin cambiar su rol ni plan
+      allow update: if request.auth != null && request.auth.uid == resource.data.uid 
+                    && request.resource.data.rol == resource.data.rol
+                    && request.resource.data.plan == resource.data.plan;
+      
+      // Admin tiene control total de lectura y escritura para gestionar la lista
+      allow read, write: if request.auth != null && get(/databases/$(database)/documents/smiles/$(request.auth.token.name)).data.rol == 'admin';
+      
       allow delete: if request.auth != null && request.auth.uid == resource.data.uid;
-    }  
+    }
+
+    // Colección de perfiles públicos (Linkwiis) - lee y actualiza solo vistas sin auth
+    match /blog/{document} {
+      allow read: if true;
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['vistas'])
+                    || request.auth != null;
+    }
   }
 }

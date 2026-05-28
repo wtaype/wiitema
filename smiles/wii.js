@@ -9,7 +9,6 @@ export let linkweb = 'https://wiitema.web.app'; // Sin slash (/), al final
 export let lanzamiento = 2026;
 export let by = '@wilder.taype';
 export let linkme = 'https://wtaype.github.io/';
-export let ipdev = import.meta.env.VITE_DEV;
 export let version = 'v11'; // Siempre va "v" para estructura
 
 /** ACTUALIZAR AL TAG POR SEGURIDAD [TAG NUEVO] (1)

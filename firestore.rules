@@ -18,9 +18,9 @@ service cloud.firestore {
 
     // ── SMILES (perfiles de usuario) ───────────────────────────────────────────
     match /smiles/{u} {
-      allow get:    if true;                                                        // lectura de perfil público (ej: check de username en registro)
-      allow list:   if request.query.limit <= 1                                      // check de email en registro (sin auth, 1 doc máx)
-                    || isGestor();                                                   // gestor y admin sin límite para gestión de usuarios
+      allow get:    if true;                     // lectura de perfil público (ej: check de username en registro)
+      allow list:   if request.query.limit <= 1 // check de email en registro (sin auth, 1 doc máx)
+                    || isGestor();             // gestor y admin sin límite para gestión de usuarios
       allow create: if isAuth()                                                     // debe estar autenticado
                     && request.resource.data.uid == uid()                          // el uid del doc debe coincidir con el auth
                     && request.resource.data.rol == 'usuario'                      // solo puede crearse con rol usuario
@@ -50,16 +50,6 @@ service cloud.firestore {
       allow create:         if isAuth() && maxSize(20);                            // cualquier usuario autenticado puede enviar mensajes (máx 20KB)
       allow update, delete: if isAuth() && myDoc();                                // solo el autor puede editar o borrar su propio mensaje
     }
-
-    // ── BLOG (posts públicos) ──────────────────────────────────────────────────
-    match /blog/{doc} {
-      allow read:          if true;                                                 // lectura pública sin restricción
-      allow create, delete: if isEditor();                                          // solo editor, gestor o admin crean/eliminan posts
-      allow update:        if request.resource.data.diff(resource.data)
-                              .affectedKeys().hasOnly(['vistas'])                   // contador de vistas: cualquiera puede sumar (sin auth)
-                           || isEditor();                                           // edición de contenido: solo editor, gestor o admin
-    }
-
     // ── LINKWIIS (links personales públicos) ───────────────────────────────────
     match /linkwiis/{doc} {
       allow read:           if true;                                                // links son públicos (perfil de usuario visible)
@@ -93,6 +83,15 @@ service cloud.firestore {
     match /listatours/{doc} {
       allow read:  if true;                                                         // catálogo de tours es público
       allow write: if isAdmin();                                                    // solo admin gestiona el catálogo de tours
+    }
+    
+    // ── BLOG (posts públicos) ──────────────────────────────────────────────────
+    match /blog/{doc} {
+      allow read:          if true;                                                 // lectura pública sin restricción
+      allow create, delete: if isEditor();                                          // solo editor, gestor o admin crean/eliminan posts
+      allow update:        if request.resource.data.diff(resource.data)
+                              .affectedKeys().hasOnly(['vistas'])                   // contador de vistas: cualquiera puede sumar (sin auth)
+                           || isEditor();                                           // edición de contenido: solo editor, gestor o admin
     }
 
     // ── COLECCIONES DINÁMICAS (agregar.js — col dinámica por tipo) ─────────────

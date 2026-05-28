@@ -19,7 +19,8 @@ service cloud.firestore {
     // ── SMILES (perfiles de usuario) ───────────────────────────────────────────
     match /smiles/{u} {
       allow get:    if true;                                                        // lectura de perfil público (ej: check de username en registro)
-      allow list:   if isAuth() && request.query.limit <= 10;                      // listar requiere sesión y máx 10 por query — evita scraping
+      allow list:   if request.query.limit <= 1                                      // check de email en registro (sin auth, 1 doc máx)
+                    || isGestor();                                                   // gestor y admin sin límite para gestión de usuarios
       allow create: if isAuth()                                                     // debe estar autenticado
                     && request.resource.data.uid == uid()                          // el uid del doc debe coincidir con el auth
                     && request.resource.data.rol == 'usuario'                      // solo puede crearse con rol usuario

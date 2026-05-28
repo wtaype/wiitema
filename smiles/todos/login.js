@@ -4,7 +4,7 @@ import { auth, db } from '../firebase.js';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile,
          sendEmailVerification, sendPasswordResetEmail, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { setDoc, getDoc, getDocs, doc, collection, query, where, serverTimestamp, limit } from 'firebase/firestore';
-import { wiTip, Mensaje, savels, getls, wiSpin, wiAuth, abrirModal, cerrarTodos } from '../widev.js';
+import { wiTip, Mensaje, savels, getls, wiSpin, wiAuth, abrirModal, cerrarTodos, wiRateLimit } from '../widev.js';
 import { rutas, rolPage } from '../rutas.js';
 import { app } from '../wii.js';
 
@@ -172,7 +172,10 @@ const checkField = async (el, forzarTip = false) => {
 
   let ok = true;
   if (id === 'regEmail') {
+    const rl = wiRateLimit('chk_email', 3);                                        // máx 3 checks de email por día
+    if (!rl.ok) return wiTip(el, `Demasiados intentos. Intenta mañana.`, 'error', 3000);
     const snap = await getDocs(query(collection(db, 'smiles'), where('email', '==', value), limit(1)));
+    rl.fail();                                                                      // cuenta cada consulta realizada (libre o no)
     ok = snap.empty;
     wiTip(el, ok ? 'Email disponible <i class="fa-solid fa-check-circle"></i>' : 'Email no disponible', ok ? 'success' : 'error', 2500);
   } else if (id === 'regUsuario' || id === 'regUsuarioGoogle') {
@@ -181,7 +184,8 @@ const checkField = async (el, forzarTip = false) => {
       if (forzarTip) wiTip(el, 'No puede contener @', 'error', 2500);
       return;
     }
-    ok = !(await getDoc(doc(db, 'smiles', value))).exists();
+    const existe = (await getDoc(doc(db, 'smiles', value))).exists();
+    ok = !existe;
     wiTip(el, ok ? 'Usuario disponible <i class="fa-solid fa-check-circle"></i>' : 'Usuario no disponible', ok ? 'success' : 'error', 2500);
   } else if (id === 'regNombre' || id === 'regApellidos') {
     ok = value.length > 0;

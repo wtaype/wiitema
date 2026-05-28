@@ -3,10 +3,18 @@ import { app, titulo, descri, keywii, linkweb } from './wii.js';
 import { Notificacion, wiPath, wiFade } from './widev.js';
 import * as inicioMod from './todos/inicio.js';
 
-export const ROL_PATH = { smile: '/smile', gestor: '/gestor', admin: '/admin' };
+export const rolPage = { usuario: '/mensajes', editor: '/smile', gestor: '/gestor', admin: '/admin' };
 
 // ── NAV COMUN — rutas compartidas entre todos los roles ────────────────────────
 const COMUN = [
+  { href: '/colores', page: 'colores', ico: 'fa-palette', txt: 'Colores' },
+  { href: '/fonts', page: 'fonts', ico: 'fa-font', txt: 'Fonts' },
+  { href: '/gradient', page: 'gradient', ico: 'fa-circle-half-stroke', txt: 'Gradientes' },
+  { href: '/iconos', page: 'iconos', ico: 'fa-icons', txt: 'Iconos' },
+  { href: '/svg', page: 'svg', ico: 'fa-image', txt: 'SVG' },
+  { href: '/smart', page: 'smart', ico: 'fa-wand-magic-sparkles', txt: 'Smart' },
+  { href: '/emojis', page: 'emojis', ico: 'fa-face-smile', txt: 'Emojis' },
+  { href: '/tools', page: 'tools', ico: 'fa-hammer', txt: 'Tools' },
   // { href: '/acerca', page: 'acerca', ico: 'fa-circle-info', txt: 'Acerca' }
 ];
 
@@ -15,32 +23,29 @@ export const NAV = {
   todos: {
     nvleft:  [
       { href: '/', page: 'inicio', ico: 'fa-house', txt: 'Bienvenido' },
-      { href: '/colores', page: 'colores', ico: 'fa-palette', txt: 'Colores' },
-      { href: '/fonts', page: 'fonts', ico: 'fa-font', txt: 'Fonts' },
-      { href: '/gradient', page: 'gradient', ico: 'fa-circle-half-stroke', txt: 'Gradientes' },
-      { href: '/iconos', page: 'iconos', ico: 'fa-icons', txt: 'Iconos' },
-      { href: '/svg', page: 'svg', ico: 'fa-image', txt: 'SVG' },
-      { href: '/smart', page: 'smart', ico: 'fa-wand-magic-sparkles', txt: 'Smart' },
-      { href: '/emojis', page: 'emojis', ico: 'fa-face-smile', txt: 'Emojis' },
-      { href: '/tools', page: 'tools', ico: 'fa-hammer', txt: 'Tools' },
-       ...COMUN],
+      ...COMUN],
     nvright: [
       { isBtn: true, cls: 'bt_auth registrar', ico: 'fa-user-plus', txt: 'Registrar' },
       { isBtn: true, cls: 'bt_auth login',     ico: 'fa-sign-in-alt', txt: 'Login'  },
     ],
   },
-  smile: {
+  usuario: {
     nvleft: [
       { href: '/smile',    page: 'smile',    ico: 'fa-house',            txt: 'Dashboard' },
-      { href: '/crear',    page: 'crear',    ico: 'fa-plus-circle',      txt: 'Mis Linkwiis' },
-      { href: '/agregar',  page: 'agregar',  ico: 'fa-folder-plus',      txt: 'Mis Recursos' },
-      { href: '/win',      page: 'win',      ico: 'fa-file-shield',      txt: 'wiWin Cloud' },
-      { href: '/word',     page: 'word',     ico: 'fa-file-lines',       txt: 'Word Editor' },
-      { href: '/notas',    page: 'notas',    ico: 'fa-book',             txt: 'Notas Book' },
-      { href: '/chat',     page: 'chat',     ico: 'fa-comments',         txt: 'Chat Grupal' },
       ...COMUN,
     ],
     nvright: [
+      { href: '/mensajes',     page: 'mensajes',     ico: 'fa-comments',         txt: 'Mensajes' },
+      { isPerfil: true }, { isSalir: true },
+    ],
+  },
+  editor: {
+    nvleft: [
+      ...COMUN,
+    ],
+    nvright: [
+      { href: '/chat',     page: 'chat',     ico: 'fa-comments',         txt: 'Chat Grupal' },
+      { href: '/mensajes',     page: 'mensajes',     ico: 'fa-comments',         txt: 'Mensajes' },
       { isPerfil: true }, { isSalir: true },
     ],
   },
@@ -108,16 +113,16 @@ export const RUTAS = [
   { path: '/contacto',   area: 'todos/acerca/' },
 
   // ── Autenticadas (colaborador / smile) ───────────────────────────────────────────────
-  { path: '/agregar',  area: 'usuarios/', roles: ['smile','gestor','admin'] },
-  { path: '/smile',    area: 'usuarios/', roles: ['smile','gestor','admin'] },
-  { path: '/crear',    area: 'usuarios/', roles: ['smile','gestor','admin'] },
-  { path: '/win',      area: 'usuarios/', roles: ['smile','gestor','admin'] },
-  { path: '/notas',    area: 'usuarios/', roles: ['smile','gestor','admin'] },
-  { path: '/perfil',   area: 'usuarios/', roles: ['smile','gestor','admin'] },
-  { path: '/mensajes', area: 'usuarios/', roles: ['smile','gestor','admin'] },
-  { path: '/word',     area: 'usuarios/', roles: ['smile','gestor','admin'] },
-  { path: '/chat',     area: 'usuarios/', roles: ['smile','gestor','admin'] },
-  { path: '/nuevo',    area: 'todos/blog/', roles: ['smile','gestor','admin'] },
+  { path: '/agregar',  area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
+  { path: '/smile',    area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
+  { path: '/crear',    area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
+  { path: '/win',      area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
+  { path: '/notas',    area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
+  { path: '/perfil',   area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
+  { path: '/mensajes', area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
+  { path: '/word',     area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
+  { path: '/chat',     area: 'usuarios/', roles: ['usuario','editor','gestor','admin'] },
+  { path: '/nuevo',    area: 'todos/blog/', roles: ['usuario','editor','gestor','admin'] },
 
   // ── Autenticadas (roles superiores / gestor & admin) ───────────────────────────────────────────────
   { path: '/gestor',   area: 'gestor/',  roles: ['gestor','admin'] },

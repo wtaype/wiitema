@@ -15,8 +15,11 @@ service cloud.firestore {
       // Público/Dueño listan con límite máximo de 3 (evita descargas masivas)
       allow list: if request.query.limit <= 5;
       
-      // Público se registra normal (inicia con rol usuario)
-      allow create: if request.resource.data.rol == 'usuario';
+      // Público se registra normal (inicia con rol usuario, plan free, activo y estado activo)
+      allow create: if request.resource.data.rol == 'usuario'
+                    && request.resource.data.plan == 'free'
+                    && request.resource.data.activo == true
+                    && request.resource.data.estado == 'activo';
       
       // Dueño actualiza su propio perfil (usuario/gestor) sin cambiar su rol ni plan
       allow update: if request.auth != null && request.auth.uid == resource.data.uid 

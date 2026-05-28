@@ -92,9 +92,9 @@ export const invalidateEmpleadosCache = () => {
 
 // --- NORMALIZAR ROL ---
 export const normalizarRol = (rol) => {
-  const validos = ['smile', 'gestor', 'empresa', 'admin', 'editor'];
-  const r = (rol || 'smile').toLowerCase();
-  return validos.includes(r) ? r : 'smile';
+  const validos = ['usuario', 'editor', 'gestor', 'admin'];
+  const r = (rol || 'usuario').toLowerCase();
+  return validos.includes(r) ? r : 'usuario';
 };
 
 // --- NORMALIZAR ESTADO ---

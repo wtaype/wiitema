@@ -17,7 +17,7 @@ export const render = () => `
     <div class="ac_hero_orb ac_orb3"></div>
     <div class="ac_hero_body">
       <div class="ac_hero_logo" style="border:none; border-radius: 20px;">
-        <img src="/smile.avif" alt="${app}" loading="lazy" style="border-radius:20px;">
+        <img src="${import.meta.env.BASE_URL}logo.webp" alt="${app}" loading="lazy" style="border-radius:20px;">
       </div>
       <div class="ac_hero_badge"><i class="fas fa-palette"></i> Diseño, Temas y Experiencia</div>
       <h1 class="ac_hero_tit">${app}</h1>

@@ -1,48 +1,159 @@
+import './colores.css';
+import './inicio.css';
 import $ from 'jquery';
 import { app, version, by, linkme } from '../wii.js';
 import { wiVista, year, wiTip, Saludar } from '../widev.js';
 
-// ── DATA ──────────────────────────────────────────────────────
+/* ══════════════════════════════════════════════════════════════
+   INICIO v3.0 — WiiTema Lab · Ultra Premium Edition
+   ✨ Aurora Hero · Kinetic Roles · Sandbox Preview · 6 Pilares
+   ══════════════════════════════════════════════════════════════ */
+
 const roles = [
-  'Recordatorios Inteligentes ⏰',
-  'Organizador de Eventos 🎉',
-  'Lista de Invitados 👥',
-  'Ideas de Regalos Perfectas 🎁',
-  'Tarjetas de Invitación con QR ✉️'
+  'Paletas de Colores HSL 🎨',
+  'Google Fonts en Vivo ✍️',
+  'Gradientes con Dial Giratorio 🌈',
+  'Estudio Vectorial SVG 📐',
+  'Smart Combos Creativos ✨',
+  'Emojis con WhatsApp Preview 🎭'
 ];
 
 const stats = [
-  { valor:100,  label: 'Recordatorios Exitosos', sufijo: '%' },
-  { valor:0,    label: 'Cumpleaños Olvidados',   sufijo: '' },
-  { valor:10,   label: 'Más Fácil y Rápido',     sufijo: 'x' }
+  { valor: 8,   label: 'Herramientas Pro', sufijo: '' },
+  { valor: 75,  label: 'Iconos Indexados', sufijo: '+' },
+  { valor: 100, label: 'Diseño Responsivo', sufijo: '%' }
+];
+
+const HERO_PRESETS = {
+  aurora: {
+    title: 'Neon Aurora 🌈',
+    desc: 'Laboratorio creativo completo para extraer paletas, combinar tipografías y afinar gradientes.',
+    iconColor: '#00f3ff',
+    iconBg: 'rgba(0,243,255,0.10)',
+    icon: 'fa-paint-roller',
+    font: '"Poppins", sans-serif'
+  },
+  cyber: {
+    title: 'Cyberpunk Tech 🤖',
+    desc: 'Especímenes tipográficos, vectores optimizados y paletas cromáticas accesibles en tiempo real.',
+    iconColor: '#ff007f',
+    iconBg: 'rgba(255,0,127,0.10)',
+    icon: 'fa-microchip',
+    font: '"Space Grotesk", sans-serif'
+  },
+  luxury: {
+    title: 'Golden Luxury 👑',
+    desc: 'Eleva el diseño visual de tus interfaces con combinaciones de color inteligentes y perfectas.',
+    iconColor: '#FFDA34',
+    iconBg: 'rgba(255,218,52,0.10)',
+    icon: 'fa-crown',
+    font: '"Playfair Display", serif'
+  }
+};
+
+/* Mini herramientas en la sandbox del hero */
+const HERO_TOOLS = [
+  { icon: 'fa-palette', label: 'Extractor HSL',        color: '#00f3ff', bg: 'rgba(0,243,255,.12)' },
+  { icon: 'fa-font',    label: 'Laboratorio Fonts',    color: '#ff3849', bg: 'rgba(255,56,73,.12)'  },
+  { icon: 'fa-circle-half-stroke', label: 'Generador Gradient', color: '#7000ff', bg: 'rgba(112,0,255,.12)' }
 ];
 
 const features = [
-  { id:'recordatorios', icon:'fa-bell', color:'#FF5C69', nombre:'Avisos Inteligentes', desc:'Nunca más olvides un cumpleaños especial',
-    items:[{icon:'fa-whatsapp',name:'WhatsApp Directo',desc:'Envía saludos predefinidos o personalizados en un clic'},{icon:'fa-envelope',name:'Alertas al Email',desc:'Recibe notificaciones en tu correo con días de anticipación'},{icon:'fa-clock',name:'Planificación de Alertas',desc:'Configura avisos a la hora exacta que prefieras'}]},
-  { id:'eventos', icon:'fa-gift', color:'#29C72E', nombre:'Gestor de Eventos', desc:'Planifica fiestas inolvidables fácilmente',
-    items:[{icon:'fa-list-check',name:'Lista de Tareas',desc:'Asigna responsables y organiza la compra de decoración'},{icon:'fa-money-bill-wave',name:'Control de Presupuesto',desc:'Lleva la cuenta de gastos de pastel, bebidas y regalos'},{icon:'fa-users',name:'Lista de Invitados',desc:'Gestiona confirmaciones de asistencia en tiempo real'}]},
-  { id:'regalos', icon:'fa-wand-magic-sparkles', color:'#FFDA34', nombre:'Sugerencias de Regalo', desc:'Encuentra el detalle perfecto para cada quien',
-    items:[{icon:'fa-heart',name:'Lista de Deseos',desc:'Guarda gustos, tallas y marcas favoritas de tus amigos'},{icon:'fa-basket-shopping',name:'Tiendas Recomendadas',desc:'Acceso rápido a ideas de regalo ordenadas por categorías'},{icon:'fa-note-sticky',name:'Notas Rápidas',desc:'Anota ideas que surjan en conversaciones casuales'}]},
-  { id:'invitaciones', icon:'fa-paper-plane', color:'#7000FF', nombre:'Invitaciones con QR', desc:'Crea pases interactivos para tus fiestas',
-    items:[{icon:'fa-qrcode',name:'Acceso con Código QR',desc:'Tus invitados solo escanean para ver la ubicación de la fiesta'},{icon:'fa-map-location-dot',name:'Ubicación GPS Integrada',desc:'Vincula mapas de Google Maps o Waze en la invitación'},{icon:'fa-mobile-screen',name:'Diseño 100% Móvil',desc:'Invitaciones responsivas que lucen hermosas en WhatsApp'}]},
-  { id:'calendario', icon:'fa-calendar-days', color:'#0EBEFF', nombre:'Calendario Visual', desc:'Organiza tus celebraciones anuales',
-    items:[{icon:'fa-eye',name:'Vista de un Vistazo',desc:'Todos los cumpleaños ordenados cronológicamente por meses'},{icon:'fa-circle-chevron-right',name:'Días Restantes',desc:'Visualiza cuántos días faltan para la próxima gran fiesta'},{icon:'fa-user-plus',name:'Importación Sencilla',desc:'Añade contactos rápidamente sin formularios tediosos'}]},
-  { id:'estadisticas', icon:'fa-chart-pie', color:'#FF8F00', nombre:'Datos de Celebración', desc:'Métricas divertidas sobre tus festejos',
-    items:[{icon:'fa-champagne-glasses',name:'Fiestas Organizadas',desc:'Muestra el conteo de eventos exitosos del año'},{icon:'fa-cake-candles',name:'Pasteles Compartidos',desc:'Reportes interactivos y curiosidades de tus amigos'},{icon:'fa-heart',name:'Amigo del Año',desc:'Estadísticas sobre quién ha recibido las mejores fiestas'}]},
+  {
+    id: 'colores',
+    icon: 'fa-palette',
+    color: '#00f3ff',
+    nombre: 'Extractor & Afinador HSL',
+    desc: 'Extrae colores de imágenes y afina paletas con controles HSL bidireccionales.',
+    items: [
+      { icon: 'fa-dropper',  name: 'Gotero circular 6x', desc: 'Captura pixeles exactos de tus fotos pegadas.' },
+      { icon: 'fa-sliders',  name: 'Afinación HSL dual',  desc: 'Sliders sincronizados con código in-line.' },
+      { icon: 'fa-paste',    name: 'Pegar desde Portapapeles', desc: 'Soporte Ctrl+V directo en la web.' }
+    ]
+  },
+  {
+    id: 'fuentes',
+    icon: 'fa-font',
+    color: '#ff3849',
+    nombre: 'Laboratorio Tipográfico',
+    desc: 'Importa tipografías de Google Fonts y regula espaciados con precisión extrema.',
+    items: [
+      { icon: 'fa-paragraph',          name: 'Especímenes de Peso',  desc: 'Visualiza todos los grosores (300 a 800) lado a lado.' },
+      { icon: 'fa-arrow-down-up-lock', name: 'Escalas de Fuentes',   desc: 'Sliders de tamaño, interlineado y letter-spacing.' },
+      { icon: 'fa-file-code',          name: 'Exportación Modular',  desc: 'Genera bloques CSS estructurados listos para usar.' }
+    ]
+  },
+  {
+    id: 'gradientes',
+    icon: 'fa-circle-half-stroke',
+    color: '#7000ff',
+    nombre: 'Generador de Gradientes',
+    desc: 'Diseña gradientes lineales y radiales con controllers HSL interactivos.',
+    items: [
+      { icon: 'fa-rotate',              name: 'Dial circular arrastrable', desc: 'Gira el dial con mouse o touch para fijar el ángulo.' },
+      { icon: 'fa-wand-magic-sparkles', name: 'Súper Azar HSL',          desc: 'Algoritmo inteligente para armonías de tríadas.' },
+      { icon: 'fa-code',               name: 'Stops & Exporter',         desc: 'Regula 2 o 3 paradas de color con exportación CSS.' }
+    ]
+  },
+  {
+    id: 'svg',
+    icon: 'fa-image',
+    color: '#29C72E',
+    nombre: 'Estudio Vectorial SVG',
+    desc: 'Configura contornos, rellenos y descargas de divisores vectoriales premium.',
+    items: [
+      { icon: 'fa-compass-drafting', name: 'Rejilla Blueprint',    desc: 'Lienzo técnico cuadriculado de precisión de fondo.' },
+      { icon: 'fa-download',         name: 'Descargador Directo', desc: 'Descarga archivos .svg puros listos al disco.' },
+      { icon: 'fa-cube',             name: 'Background Base64',   desc: 'Convierte vectores a código Base64 directo para CSS.' }
+    ]
+  },
+  {
+    id: 'smart',
+    icon: 'fa-wand-magic-sparkles',
+    color: '#FFDA34',
+    nombre: 'Smart Combo Play',
+    desc: 'El combinador definitivo que une colores, fuentes, iconos y SVGs en un clic.',
+    items: [
+      { icon: 'fa-swatchbook', name: 'Presets curados',   desc: 'Alterna combinaciones (Tech, Pastel, Luxury, Mora).' },
+      { icon: 'fa-desktop',    name: 'Sandbox Integrado', desc: 'Previsualiza cabeceras, botones y divisores juntos.' },
+      { icon: 'fa-file-code',  name: 'Bloque Unificado',  desc: 'Copia el bloque completo de HTML y CSS en un clic.' }
+    ]
+  },
+  {
+    id: 'emojis',
+    icon: 'fa-face-smile',
+    color: '#ffa726',
+    nombre: 'Emoji & Notepad Pro',
+    desc: 'Escribe copys con WhatsApp/Discord Live Previews y animaciones de explosiones.',
+    items: [
+      { icon: 'fa-eye',      name: 'Speech previews',      desc: 'Previsualiza globos de mensajes con formato real.' },
+      { icon: 'fa-bullhorn', name: 'Marketing Templates',  desc: 'Inyecta plantillas de ventas y avisos al instante.' },
+      { icon: 'fa-fire',     name: 'Partículas explosivas', desc: 'Explosión de emojis flotantes en coordenadas de clic.' }
+    ]
+  }
 ];
 
 const beneficios = [
-  { icon:'fa-face-smile-beam', titulo:'100% Fácil y Divertido', desc:'Diseñado para arrancar sonrisas. Registra fechas, crea invitaciones y planifica celebraciones de la forma más amigable posible.' },
-  { icon:'fa-lock', titulo:'Privacidad Garantizada', desc:'Tus datos y los de tus seres queridos están completamente seguros, encriptados y bajo tu absoluto control en todo momento.' },
-  { icon:'fa-champagne-glasses', titulo:'Totalmente Gratis', desc:'Sin cargos ocultos ni suscripciones obligatorias. Creemos que celebrar la vida con quienes amas debe ser libre y accesible para todos.' },
+  { icon: 'fa-laptop-code',        titulo: '100% Client-Side Sandbox',  desc: 'Procesamiento ultrarrápido sin peticiones de red pesadas. El navegador ejecuta las animaciones y renderiza los especímenes al instante.' },
+  { icon: 'fa-cube',               titulo: 'Exportación Universal',       desc: 'Todos los generadores cuentan con paneles de copiado de código CSS puro, variables globales (:root) y marcado HTML.' },
+  { icon: 'fa-wand-magic-sparkles', titulo: 'Inspiración Inteligente',   desc: 'Olvídate del bloqueo creativo con herramientas de aleatorización cromática y diales táctiles dinámicos.' }
 ];
 
-// ── PLANTILLAS ────────────────────────────────────────────────
+
+// ── PLANTILLAS ─────────────────────────────────────────────────
 const tplStat = s => `
   <div class="ini_stat">
     <div class="ini_stat_n" data-target="${s.valor}" data-sufijo="${s.sufijo}">0</div>
     <div class="ini_stat_l">${s.label}</div>
+  </div>`;
+
+const tplHeroTool = t => `
+  <div class="ini_sb_tool_row">
+    <div class="ini_sb_tool_ico" style="background:${t.bg};color:${t.color};">
+      <i class="fas ${t.icon}"></i>
+    </div>
+    <span class="ini_sb_tool_name">${t.label}</span>
+    <span class="ini_sb_tool_dot"></span>
   </div>`;
 
 const tplFeature = f => `
@@ -53,26 +164,26 @@ const tplFeature = f => `
       <div class="ini_cat_info"><h3>${f.nombre}</h3><p>${f.desc}</p></div>
     </div>
     <ul class="ini_cat_tools">
-      ${f.items.map(it=>`
-        <li><div class="ini_tool_a">
-          <i class="fas ${it.icon}"></i>
-          <div><strong>${it.name}</strong><span>${it.desc}</span></div>
-          <i class="fas fa-check ini_ext" style="color:var(--success)"></i>
-        </div></li>`).join('')}
+      ${f.items.map(it => `
+        <li>
+          <a href="/${f.id}" class="ini_tool_a nv_item" data-page="${f.id}">
+            <i class="fas ${it.icon}"></i>
+            <div><strong>${it.name}</strong><span>${it.desc}</span></div>
+            <i class="fas fa-arrow-right ini_ext"></i>
+          </a>
+        </li>`).join('')}
     </ul>
   </div>`;
 
-const tplBeneficio = (b,i) => `
-  <div class="ini_about_card" style="--d:${i*.15}s">
+const tplBeneficio = (b, i) => `
+  <div class="ini_about_card" style="--d:${i * .15}s">
     <div class="ini_card_ico"><i class="fas ${b.icon}"></i></div>
     <h3>${b.titulo}</h3>
     <p>${b.desc}</p>
   </div>`;
 
-// Variable para el control del intervalo del conteo regresivo
-let timerInterval;
 
-// ── RENDER ────────────────────────────────────────────────────
+// ── RENDER ─────────────────────────────────────────────────────
 export const render = () => `
 <div class="ini_wrap">
 
@@ -80,220 +191,310 @@ export const render = () => `
   <section class="ini_hero">
     <div class="ini_hero_content">
 
+      <!-- Saludo premium con badge vivo -->
       <div class="ini_saludo" style="--d:0s">
-        <span>${Saludar()}</span><span class="ini_wave">👋</span>
+        <span class="ini_saludo_dot"></span>
+        <span>${Saludar()} — Bienvenido al Futuro del Diseño</span>
+        <span class="ini_wave">🚀</span>
       </div>
 
-      <h1 class="ini_titulo" style="--d:.18s">
-        Gestiona Cumpleaños Feliz con <span class="ini_grad">${app}</span>
+      <!-- Título principal -->
+      <h1 class="ini_titulo" style="--d:.15s">
+        Acelera tu Creatividad Web<br>con <span class="ini_grad">${app} Lab</span>
       </h1>
 
-      <div class="ini_roles" style="--d:.36s">
-        ${roles.map((r,i)=>`<span class="ini_role${i===0?' active':''}">${r}</span>`).join('')}
+      <!-- Roles animados con pip -->
+      <div class="ini_roles" style="--d:.3s">
+        ${roles.map((r, i) => `
+          <span class="ini_role${i === 0 ? ' active' : ''}">
+            <span class="ini_role_pip"></span>${r}
+          </span>`).join('')}
       </div>
 
-      <p class="ini_sub" style="--d:.54s">
-        Organiza celebraciones, recuerda fechas especiales y planifica momentos inolvidables con tus amigos y familiares de la manera más sencilla y amigable del mundo.
+      <!-- Subtítulo -->
+      <p class="ini_sub" style="--d:.45s">
+        La suite definitiva de utilidades creativas client-side para diseñadores y
+        desarrolladores. Extrae colores, manipula tipografías, genera gradientes
+        con diales táctiles y exporta código limpio listo para producción.
       </p>
 
-      <div class="ini_stats" id="in_stats" style="--d:.72s">
+      <!-- Stats animados -->
+      <div class="ini_stats" id="in_stats" style="--d:.6s">
         ${stats.map(tplStat).join('')}
       </div>
 
-      <div class="ini_btns" style="--d:.9s">
-        <a href="/login" class="ini_btn_p"><i class="fas fa-arrow-right-to-bracket"></i> Empezar Gratis</a>
+      <!-- CTAs -->
+      <div class="ini_btns" style="--d:.78s">
+        <a href="/colores" class="ini_btn_p nv_item" data-page="colores">
+          <i class="fas fa-play"></i> Ingresar al Lab
+        </a>
+        <a href="/tools" class="ini_btn_s nv_item" data-page="tools">
+          <i class="fas fa-hammer"></i> Directorio Tools
+        </a>
       </div>
 
-    </div>
+    </div><!-- end hero content -->
 
-    <!-- Derecha: simulador de tarjeta de cumpleaños interactiva -->
+    <!-- Derecha: Sandbox Widget Interactivo -->
     <div class="ini_hero_visual">
-      <div class="ini_nw_preview" style="--d:.3s; padding: 2.5vh; max-width: 330px; height: auto;">
-        <div class="ini_nw_head" style="height: auto; padding: 1vh 0; display: flex; justify-content: space-between; border-bottom: 2px solid var(--brd); background: transparent;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-cake-candles" style="color: var(--mco); font-size: 1.4rem;"></i>
-            <span style="font-weight: 800; font-size: 0.95rem; color: var(--tx);">${app}</span>
+
+      <div class="ini_sandbox_card" id="hero_sandbox">
+        <!-- Scan line efecto -->
+        <div class="ini_scan_line"></div>
+
+        <!-- Header de la tarjeta -->
+        <div class="ini_sb_head">
+          <div class="ini_sb_brand">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            <span>WiiTema Sandbox</span>
           </div>
-          <div style="font-size: 0.65rem; font-weight: 700; background: var(--bg5); color: var(--mco); padding: 2px 6px; border-radius: 20px;">
-            ${version}
-          </div>
+          <span class="ini_sb_badge">● En Vivo</span>
         </div>
-        
-        <div style="display: flex; flex-direction: column; gap: 2vh; padding: 2.5vh 0 1vh;">
-          <div class="txc">
-            <span style="font-size: 0.7rem; font-weight: 600; color: var(--tx3); text-transform: uppercase; letter-spacing: 0.5px;">Próximo Cumpleaños</span>
-            <h3 id="widget_nombre" style="font-size: 1.2rem; font-weight: 800; color: var(--mco); margin-top: 0.5vh;">🎂 ¡Wilder Taype! 🥳</h3>
-          </div>
-          
-          <!-- Cuenta regresiva interactiva -->
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center;">
-            <div style="background: var(--bg1); padding: 6px; border-radius: 8px; border: 1px solid var(--brd);">
-              <div id="wd_dias" style="font-size: 1.1rem; font-weight: 800; color: var(--tx);">0</div>
-              <div style="font-size: 0.55rem; color: var(--tx3); font-weight: 600;">DÍAS</div>
-            </div>
-            <div style="background: var(--bg1); padding: 6px; border-radius: 8px; border: 1px solid var(--brd);">
-              <div id="wd_horas" style="font-size: 1.1rem; font-weight: 800; color: var(--tx);">0</div>
-              <div style="font-size: 0.55rem; color: var(--tx3); font-weight: 600;">HORAS</div>
-            </div>
-            <div style="background: var(--bg1); padding: 6px; border-radius: 8px; border: 1px solid var(--brd);">
-              <div id="wd_mins" style="font-size: 1.1rem; font-weight: 800; color: var(--tx);">0</div>
-              <div style="font-size: 0.55rem; color: var(--tx3); font-weight: 600;">MINS</div>
-            </div>
-            <div style="background: var(--bg1); padding: 6px; border-radius: 8px; border: 1px solid var(--brd);">
-              <div id="wd_segs" style="font-size: 1.1rem; font-weight: 800; color: var(--tx);">0</div>
-              <div style="font-size: 0.55rem; color: var(--tx3); font-weight: 600;">SEGS</div>
-            </div>
-          </div>
-          
-          <!-- Inputs interactivos del widget de portada -->
-          <div style="border-top: 1px solid var(--brd); padding-top: 2vh; display: flex; flex-direction: column; gap: 1vh;">
-            <div style="display: flex; flex-direction: column; gap: 0.4vh;">
-              <label style="font-size: 0.7rem; font-weight: 700; color: var(--tx2); text-align: left;">Prueba el planificador:</label>
-              <input type="text" id="widget_input_nombre" value="Wilder Taype" placeholder="Nombre del cumpleañero" style="font-size: 0.8rem; padding: 0.8vh 1.2vh; border-radius: 6px; border: 1px solid var(--brd); background: var(--inp); color: var(--tx);" />
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 0.4vh;">
-              <label style="font-size: 0.7rem; font-weight: 700; color: var(--tx2); text-align: left;">Fecha especial:</label>
-              <input type="date" id="widget_input_fecha" style="font-size: 0.8rem; padding: 0.8vh 1.2vh; border-radius: 6px; border: 1px solid var(--brd); background: var(--inp); color: var(--tx);" />
-            </div>
-          </div>
+
+        <!-- Icono del preset -->
+        <div class="ini_sb_icon_wrap" id="sb_icon">
+          <i class="fas fa-paint-roller" id="sb_icon_i"></i>
+        </div>
+
+        <!-- Título y descripción del preset -->
+        <h3 class="ini_sb_title" id="sb_title">Neon Aurora 🌈</h3>
+        <p class="ini_sb_desc" id="sb_desc">Laboratorio creativo completo para extraer paletas, combinar tipografías y afinar gradientes.</p>
+
+        <!-- Mini herramientas -->
+        <div class="ini_sb_tools">
+          ${HERO_TOOLS.map(tplHeroTool).join('')}
+        </div>
+
+        <!-- Presets de estilo -->
+        <span class="ini_sb_presets_label">Prueba los estilos del Lab:</span>
+        <div class="ini_preset_tabs">
+          <button class="ini_preset_tab active" data-preset="aurora">Aurora</button>
+          <button class="ini_preset_tab"        data-preset="cyber">Cyberpunk</button>
+          <button class="ini_preset_tab"        data-preset="luxury">Luxury</button>
         </div>
       </div>
-      <div class="ini_ftech ini_ft1" style="--d:.5s"  ${wiTip('Pastel')}><i class="fas fa-cake-candles"></i></div>
-      <div class="ini_ftech ini_ft2" style="--d:.65s" ${wiTip('Regalos')}><i class="fas fa-gift"></i></div>
-      <div class="ini_ftech ini_ft3" style="--d:.8s"  ${wiTip('Celebrar')}><i class="fas fa-champagne-glasses"></i></div>
-      <div class="ini_ftech ini_ft4" style="--d:.95s" ${wiTip('Amigos')}><i class="fas fa-face-smile-beam"></i></div>
-    </div>
+
+      <!-- Floating tech badges -->
+      <div class="ini_ftech ini_ft1" style="--d:.5s"  ${wiTip('Color HSL')}>  <i class="fas fa-palette"></i></div>
+      <div class="ini_ftech ini_ft2" style="--d:.65s" ${wiTip('Fonts Pro')}>  <i class="fas fa-font"></i></div>
+      <div class="ini_ftech ini_ft3" style="--d:.8s"  ${wiTip('Gradient')}> <i class="fas fa-circle-half-stroke"></i></div>
+      <div class="ini_ftech ini_ft4" style="--d:.95s" ${wiTip('SVG Studio')}><i class="fas fa-compass-drafting"></i></div>
+
+    </div><!-- end hero visual -->
   </section>
 
-  <!-- ===== FUNCIONALIDADES ===== -->
+  <!-- ===== 6 PILARES ===== -->
   <section class="ini_cats_sec">
     <div class="ini_sec_head">
-      <h2 class="ini_sec_tit">Los <span class="ini_grad">6 Pilares</span> de ${app}</h2>
+      <h2 class="ini_sec_tit">Los <span class="ini_grad">6 Pilares</span> del Lab</h2>
       <div class="ini_sec_line"></div>
-      <p class="ini_sec_desc">Todo lo necesario para celebrar la vida en grande y sin complicaciones</p>
+      <p class="ini_sec_desc">Explora las herramientas avanzadas integradas en WiiTema Suite</p>
     </div>
     <div class="ini_cats_grid">${features.map(tplFeature).join('')}</div>
   </section>
 
-  <!-- ===== ¿POR QUÉ? ===== -->
+  <!-- ===== BENEFICIOS ===== -->
   <section class="ini_about_sec">
     <div class="ini_sec_head">
-      <h2 class="ini_sec_tit">¿Qué beneficios tienes al usar <span class="ini_grad">${app}?</span></h2>
+      <h2 class="ini_sec_tit">¿Qué hace a <span class="ini_grad">${app} Lab</span> Excepcional?</h2>
       <div class="ini_sec_line"></div>
     </div>
     <div class="ini_about_grid">${beneficios.map(tplBeneficio).join('')}</div>
   </section>
 
-  <!-- ===== CTA ===== -->
+  <!-- ===== CTA FINAL ===== -->
   <section class="ini_cta_sec">
     <div class="ini_cta_wrap">
-      <i class="fas fa-cake-candles ini_cta_ico"></i>
-      <h2>Comienza a organizar cumpleaños inolvidables hoy</h2>
-      <p>Regístrate en segundos y descubre lo fácil que es hacer felices a tus seres queridos.</p>
+      <i class="fas fa-wand-magic-sparkles ini_cta_ico"></i>
+      <h2>Empieza a Diseñar Interfaces Increíbles Hoy Mismo</h2>
+      <p>Carga paletas, ensaya tipografías y optimiza componentes con nuestra suite de sandboxes creativos.</p>
       <div class="ini_cta_chips">
-        <a href="/login" class="ini_btn_p"><i class="fas fa-arrow-right-to-bracket"></i> Registrarme Gratis</a>
+        <a href="/colores" class="ini_btn_p nv_item" data-page="colores">
+          <i class="fas fa-play"></i> Comenzar en el Lab
+        </a>
       </div>
+      <p class="ini_cta_autor">
+        Desarrollado con pasión por <a href="${linkme}" target="_blank">${by}</a>
+      </p>
     </div>
   </section>
 
 </div>`;
 
-// ── INIT ──────────────────────────────────────────────────────
+
+// ── INIT ───────────────────────────────────────────────────────
 export const init = () => {
 
-  // Roles rotantes
-  let ri = 0;
-  const $r = $('.ini_role');
-  const roleInterval = setInterval(() => { 
-    $r.removeClass('active'); 
-    $r.eq(ri = (ri+1) % $r.length).addClass('active'); 
-  }, 2800);
+  // ── 1. ROLES — Animación cinematográfica con enter/leave ──
+  const $roles = $('.ini_role');
+  const total  = $roles.length;
+  let rIdx     = 0;
+  let rLocked  = false;
 
-  // Stats contador — al entrar en viewport
+  const nextRole = () => {
+    if (rLocked) return;
+    const $curr = $roles.eq(rIdx);
+    rIdx = (rIdx + 1) % total;
+    const $next = $roles.eq(rIdx);
+
+    // Salida
+    $curr.removeClass('active').addClass('ini_role_leaving');
+    setTimeout(() => $curr.removeClass('ini_role_leaving'), 430);
+
+    // Entrada con ligero delay
+    setTimeout(() => {
+      $next.addClass('ini_role_entering');
+      setTimeout(() => {
+        $next.removeClass('ini_role_entering').addClass('active');
+      }, 480);
+    }, 80);
+  };
+
+  const roleInterval = setInterval(nextRole, 2600);
+
+
+  // ── 2. STATS — Contador cinético con pop ─────────────────
   wiVista('#in_stats', () => {
-    $('.ini_stat_n').each(function() {
-      const $n = $(this), obj = +$n.data('target'), suf = $n.data('sufijo') || '';
+    $('.ini_stat_n').each(function () {
+      const $n   = $(this);
+      const obj  = +$n.data('target');
+      const suf  = $n.data('sufijo') || '';
+      const dur  = 900; // ms total
+      const fps  = 36;
+      const step = Math.ceil(obj / (dur / (1000 / fps)));
       let v = 0;
+
       const t = setInterval(() => {
-        v += obj / 50;
-        if (v >= obj) { $n.text(obj + suf); clearInterval(t); }
-        else $n.text(Math.floor(v));
-      }, 28);
+        v += step;
+        if (v >= obj) {
+          $n.text(obj + suf);
+          $n.addClass('ini_pop');
+          setTimeout(() => $n.removeClass('ini_pop'), 350);
+          clearInterval(t);
+        } else {
+          $n.text(Math.floor(v));
+        }
+      }, 1000 / fps);
     });
   });
 
-  // Scroll animations
-  wiVista('.ini_cat_card',   null, { anim:'wi_fadeUp', stagger:80  });
-  wiVista('.ini_about_card', null, { anim:'wi_fadeUp', stagger:140 });
 
-  // --- WIDGET PLANNER INTERACTIVO ---
-  // Establecer fecha futura por defecto (5 días después de hoy)
-  const hoy = new Date();
-  const fut = new Date(hoy.getTime() + 5 * 24 * 60 * 60 * 1000);
-  const yyyy = fut.getFullYear();
-  const mm = String(fut.getMonth() + 1).padStart(2, '0');
-  const dd = String(fut.getDate()).padStart(2, '0');
-  const defaultDate = `${yyyy}-${mm}-${dd}`;
-  $('#widget_input_fecha').val(defaultDate);
+  // ── 3. CARDS — Scroll reveal animado ─────────────────────
+  wiVista('.ini_cat_card',   null, { anim: 'wi_fadeUp', stagger: 70  });
+  wiVista('.ini_about_card', null, { anim: 'wi_fadeUp', stagger: 110 });
 
-  // Función para calcular y renderizar el conteo regresivo
-  const actualizarRegresivo = () => {
-    const targetStr = $('#widget_input_fecha').val();
-    if (!targetStr) return;
-    
-    // Crear la fecha con el string y forzar hora 00:00:00 local
-    const parts = targetStr.split('-');
-    const targetDate = new Date(parts[0], parts[1] - 1, parts[2]);
-    const ahora = new Date();
-    
-    // Si la fecha seleccionada ya pasó, sumamos 1 año para mantener el conteo futuro
-    if (targetDate < ahora) {
-      targetDate.setFullYear(ahora.getFullYear() + (targetDate.getMonth() < ahora.getMonth() || (targetDate.getMonth() === ahora.getMonth() && targetDate.getDate() < ahora.getDate()) ? 1 : 0));
-    }
-    
-    const dif = targetDate.getTime() - ahora.getTime();
-    if (dif <= 0) {
-      $('#wd_dias').text(0);
-      $('#wd_horas').text(0);
-      $('#wd_mins').text(0);
-      $('#wd_segs').text(0);
-      return;
-    }
-    
-    const d = Math.floor(dif / (1000 * 60 * 60 * 24));
-    const h = Math.floor((dif % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((dif % (1000 * 60 * 60)) / (1000 * 60));
-    const s = Math.floor((dif % (1000 * 60)) / 1000);
-    
-    $('#wd_dias').text(d);
-    $('#wd_horas').text(h);
-    $('#wd_mins').text(m);
-    $('#wd_segs').text(s);
-  };
 
-  // Escuchar inputs y actualizar en tiempo real
-  $('#widget_input_nombre').on('input', function() {
-    const val = $(this).val().trim() || 'Alguien especial';
-    $('#widget_nombre').html(`🎂 ¡${val}! 🥳`);
+  // ── 4. SANDBOX WIDGET — Presets interactivos ─────────────
+  const $sbTitle = $('#sb_title');
+  const $sbDesc  = $('#sb_desc');
+  const $sbIcon  = $('#sb_icon');
+  const $sbIconI = $('#sb_icon_i');
+  let   sbLocked = false;
+
+  $(document).on('click.ini', '.ini_preset_tab', function (e) {
+    e.preventDefault();
+    if (sbLocked) return;
+
+    const key  = $(this).data('preset');
+    const pres = HERO_PRESETS[key];
+    if (!pres) return;
+
+    sbLocked = true;
+
+    // Tabs activo
+    $('.ini_preset_tab').removeClass('active');
+    $(this).addClass('active');
+
+    // Fade out rápido
+    $sbTitle.add($sbDesc).add($sbIcon).css({
+      opacity: 0,
+      transform: 'translateY(6px) scale(0.97)',
+      transition: 'opacity .2s, transform .2s'
+    });
+
+    setTimeout(() => {
+      // Actualizar contenido
+      $sbTitle.text(pres.title).css('color', pres.iconColor).css('font-family', pres.font);
+      $sbDesc.text(pres.desc).css('font-family', pres.font);
+      $sbIconI.attr('class', `fas ${pres.icon}`);
+      $sbIcon.css({
+        'background':   pres.iconBg,
+        'color':        pres.iconColor,
+        'border-color': `${pres.iconColor}33`
+      });
+
+      // Fade in suave
+      $sbTitle.add($sbDesc).add($sbIcon).css({
+        opacity: 1,
+        transform: 'translateY(0) scale(1)',
+        transition: 'opacity .3s cubic-bezier(.22,1,.36,1), transform .3s cubic-bezier(.22,1,.36,1)'
+      });
+
+      setTimeout(() => { sbLocked = false; }, 350);
+    }, 200);
   });
 
-  $('#widget_input_fecha').on('change', () => {
-    actualizarRegresivo();
+
+  // ── 5. FLOATING BADGES — Hover glow por color ─────────────
+  const badgeColors = ['#00f3ff', '#ff3849', '#7000ff', '#29C72E'];
+  $('.ini_ftech').each(function (i) {
+    const col = badgeColors[i] || 'var(--mco)';
+    $(this)
+      .find('i').css('color', col).end()
+      .on('mouseenter.ini', function () {
+        $(this).css('border-color', col);
+      })
+      .on('mouseleave.ini', function () {
+        $(this).css('border-color', '');
+      });
   });
 
-  // Inicializar conteo
-  actualizarRegresivo();
-  timerInterval = setInterval(actualizarRegresivo, 1000);
 
-  // Agregar los intervalos y timers activos en un array de control del módulo
-  window._inicio_timers = [roleInterval, timerInterval];
+  // ── 6. SANDBOX CARD — Parallax suave en mouse move ────────
+  const $card = $('#hero_sandbox');
+  let cardRect = null;
 
-  console.log(`🚀 ${app} ${version} · Inicio CumpleWii OK`);
+  const refreshRect = () => { cardRect = $card[0]?.getBoundingClientRect(); };
+  refreshRect();
+
+  $(window).on('resize.ini', refreshRect);
+
+  $(document).on('mousemove.ini', function (e) {
+    if (!cardRect || window.innerWidth < 900) return;
+    const cx = cardRect.left + cardRect.width / 2;
+    const cy = cardRect.top  + cardRect.height / 2;
+    const dx = (e.clientX - cx) / cardRect.width;
+    const dy = (e.clientY - cy) / cardRect.height;
+    const rx =  dy * -6; // rotateX
+    const ry =  dx *  6; // rotateY
+
+    $card.css({
+      'transform': `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`,
+      'transition': 'transform .1s linear'
+    });
+  });
+
+  $card.on('mouseleave.ini', function () {
+    $(this).css({
+      'transform': '',
+      'transition': 'transform .5s cubic-bezier(.22,1,.36,1)'
+    });
+    refreshRect();
+  });
+
+
+  // ── Guardar timers para cleanup ────────────────────────────
+  window._inicio_timers = [roleInterval];
 };
 
+
+// ── CLEANUP ────────────────────────────────────────────────────
 export const cleanup = () => {
   if (window._inicio_timers) {
     window._inicio_timers.forEach(t => clearInterval(t));
+    window._inicio_timers = null;
   }
-  clearInterval(timerInterval);
+  $(document).off('.ini');
+  $(window).off('.ini');
+  $('#hero_sandbox').off('.ini');
 };

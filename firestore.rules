@@ -2,41 +2,102 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Regla general para otras colecciones (requiere auth)
-    match /{col}/{doc=**} {
-      allow read, write: if request.auth != null && col != 'smiles';
-    }
+    // ── HELPERS — funciones reutilizables para no repetir lógica ───────────────
+    function isAuth()    { return request.auth != null; }                          // sesión activa
+    function uid()       { return request.auth.uid; }                              // UID de Firebase Auth
+    function email()     { return request.auth.token.email; }                      // email del token
+    function myDoc()     { return resource.data.uid == uid(); }                    // doc pertenece al usuario
+    function myEmail()   { return resource.data.email == email(); }                // doc pertenece al email
+    function newMyEmail(){ return request.resource.data.email == email(); }        // nuevo doc con mi email
+    function maxSize(kb) { return request.resource.data.size() < kb * 1024; }     // límite de tamaño
 
-    // Colección de perfiles 'smiles' (usuarios, gestores y admins)
+    // Rol: displayName == usuario == doc ID en smiles (único por diseño en login.js)
+    function getRol()   { return get(/databases/$(database)/documents/smiles/$(request.auth.token.name)).data.rol; }
+    function isAdmin()  { return isAuth() && getRol() == 'admin'; }                // solo admin
+    function isEditor() { return isAuth() && getRol() in ['editor','gestor','admin']; } // editor, gestor o admin
+
+    // ── SMILES (perfiles de usuario) ───────────────────────────────────────────
     match /smiles/{u} {
-      // Público puede consultar perfiles específicos (username check)
-      allow get: if true;
-      
-      // Público/Dueño listan con límite máximo de 3 (evita descargas masivas)
-      allow list: if request.query.limit <= 5;
-      
-      // Público se registra normal (inicia con rol usuario, plan free, activo y estado activo)
-      allow create: if request.resource.data.rol == 'usuario'
-                    && request.resource.data.plan == 'free'
-                    && request.resource.data.activo == true
-                    && request.resource.data.estado == 'activo';
-      
-      // Dueño actualiza su propio perfil (usuario/gestor) sin cambiar su rol ni plan
-      allow update: if request.auth != null && request.auth.uid == resource.data.uid 
-                    && request.resource.data.rol == resource.data.rol
-                    && request.resource.data.plan == resource.data.plan;
-      
-      // Admin tiene control total de lectura y escritura para gestionar la lista
-      allow read, write: if request.auth != null && get(/databases/$(database)/documents/smiles/$(request.auth.token.name)).data.rol == 'admin';
-      
-      allow delete: if request.auth != null && request.auth.uid == resource.data.uid;
+      allow get:    if true;                                                        // lectura de perfil público (ej: check de username en registro)
+      allow list:   if isAuth() && request.query.limit <= 10;                      // listar requiere sesión y máx 10 por query — evita scraping
+      allow create: if isAuth()                                                     // debe estar autenticado
+                    && request.resource.data.uid == uid()                          // el uid del doc debe coincidir con el auth
+                    && request.resource.data.rol == 'usuario'                      // solo puede crearse con rol usuario
+                    && request.resource.data.plan == 'free'                        // plan inicial siempre free
+                    && request.resource.data.activo == true                        // activo por defecto
+                    && request.resource.data.estado == 'activo'                    // estado inicial activo
+                    && maxSize(10);                                                 // máx 10KB por perfil
+      allow update: if (isAuth() && myDoc()                                        // dueño actualiza su propio perfil
+                    && request.resource.data.rol == resource.data.rol              // no puede cambiar su rol
+                    && request.resource.data.plan == resource.data.plan            // no puede cambiar su plan
+                    && maxSize(10))
+                    || isAdmin();                                                   // admin puede actualizar cualquier perfil
+      allow delete: if (isAuth() && myDoc()) || isAdmin();                         // solo el dueño o admin puede eliminar
+      allow read, write: if isAdmin();                                             // admin tiene control total (gestión de usuarios)
+    }
+    
+    // ── MENSAJES PRIVADOS ──────────────────────────────────────────────────────
+    match /wiMensajes/{doc} {
+      allow read:           if isAuth() && myEmail();                              // solo puedes leer tus propios mensajes
+      allow create:         if isAuth() && newMyEmail() && maxSize(20);            // solo puedes crear mensajes asociados a tu email
+      allow update, delete: if isAuth() && myEmail();                              // solo el dueño puede modificar o eliminar
+    }
+    
+    // ── CHAT GRUPAL ────────────────────────────────────────────────────────────
+    match /chatSmiles/{msg} {
+      allow read:           if isAuth();                                           // solo usuarios autenticados pueden leer el chat
+      allow create:         if isAuth() && maxSize(20);                            // cualquier usuario autenticado puede enviar mensajes (máx 20KB)
+      allow update, delete: if isAuth() && myDoc();                                // solo el autor puede editar o borrar su propio mensaje
     }
 
-    // Colección de perfiles públicos (Linkwiis) - lee y actualiza solo vistas sin auth
-    match /blog/{document} {
-      allow read: if true;
-      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['vistas'])
-                    || request.auth != null;
+    // ── BLOG (posts públicos) ──────────────────────────────────────────────────
+    match /blog/{doc} {
+      allow read:          if true;                                                 // lectura pública sin restricción
+      allow create, delete: if isEditor();                                          // solo editor, gestor o admin crean/eliminan posts
+      allow update:        if request.resource.data.diff(resource.data)
+                              .affectedKeys().hasOnly(['vistas'])                   // contador de vistas: cualquiera puede sumar (sin auth)
+                           || isEditor();                                           // edición de contenido: solo editor, gestor o admin
     }
+
+    // ── LINKWIIS (links personales públicos) ───────────────────────────────────
+    match /linkwiis/{doc} {
+      allow read:           if true;                                                // links son públicos (perfil de usuario visible)
+      allow create:         if isAuth() && newMyEmail() && maxSize(20);            // solo puedes crear links con tu propio email
+      allow update, delete: if isAuth() && myEmail();                              // solo el dueño puede modificar o eliminar sus links
+    }
+
+
+    // ── NOTAS ──────────────────────────────────────────────────────────────────
+    match /wiNotas/{doc} {
+      allow read:           if isAuth() && myEmail();                              // solo puedes leer tus propias notas
+      allow create:         if isAuth() && newMyEmail() && maxSize(100);           // notas pueden ser largas (máx 100KB)
+      allow update, delete: if isAuth() && myEmail();                              // solo el dueño puede modificar o eliminar
+    }
+
+    // ── WORD EDITOR ────────────────────────────────────────────────────────────
+    match /word/{doc} {
+      allow read:           if isAuth() && myEmail();                              // solo puedes leer tus propios documentos
+      allow create:         if isAuth() && newMyEmail() && maxSize(100);           // documentos pueden ser largos (máx 100KB)
+      allow update, delete: if isAuth() && myEmail();                              // solo el dueño puede modificar o eliminar
+    }
+
+    // ── REGISTROS (reservas, eventos, tours) ───────────────────────────────────
+    match /registrosdb/{doc} {
+      allow read:           if isAuth();                                            // cualquier usuario autenticado puede leer registros
+      allow create:         if isAuth() && maxSize(20);                            // cualquier usuario autenticado puede registrarse
+      allow update, delete: if isAdmin();                                           // solo admin puede modificar o cancelar registros
+    }
+
+    // ── LISTA DE TOURS ─────────────────────────────────────────────────────────
+    match /listatours/{doc} {
+      allow read:  if true;                                                         // catálogo de tours es público
+      allow write: if isAdmin();                                                    // solo admin gestiona el catálogo de tours
+    }
+
+    // ── COLECCIONES DINÁMICAS (agregar.js — col dinámica por tipo) ─────────────
+    match /{col}/{doc} {
+      allow read, write: if isAuth() && newMyEmail() && maxSize(20);              // solo puedes operar sobre docs con tu propio email
+    }
+
   }
 }

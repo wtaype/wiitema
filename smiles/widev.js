@@ -442,6 +442,13 @@ export function getsaves(sel, attr, fn) {
   });
 }
 
+// SUPERFUN v1.1 — Ejecución diferida persistente (una vez por navegador) ─────────────────────────
+export const superFun = (() => {
+  const c = localStorage.getItem('superFun') === 'true';
+  const run = (fn) => { try { fn(); } catch(e) { console.error('superFun:', e); } localStorage.setItem('superFun', 'true'); };
+  return (fn) => c ? run(fn) : $(document).one('touchstart scroll click mousemove', () => run(fn));
+})();
+
 // RATE LIMIT v1.0 — Freno de intentos por acción ─────────────────────────
 export function wiRateLimit(key, max = 5, hasta = 'dia') {
   const K = `limiteHoy_${key}`;

@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import { app, icon } from './wii.js';
-import { rutas, NAV } from './rutas.js';
-import { Mensaje, wiAuth } from './widev.js';
+import { rutas, NAV, rolPage } from './rutas.js';
+import { Mensaje, wiAuth, superFun } from './widev.js';
 
 // ── LOGO — generado desde wii.js ─────────────────────────────────────────────
 const LOGO = `<a href="/"><i class="fa-solid ${icon}"></i> ${app}</a>`;
@@ -52,6 +52,17 @@ const wi = wiAuth.user; wi ? renderHeader(wi) : renderHeader();
 
 // ── ROUTE LISTENER — re-renderiza el nav en cada navegación SPA ───────────────
 window.addEventListener('winavigate', ({ detail: { norm } }) => renderHeader(wiAuth.user, norm));
+
+// ── FIREBASE AUTH STATE — detecta pérdida de sesión en tiempo real (multi-pestaña) ──────────────
+const _salir = () => !window.isRel && (window.isRel = 1) &&
+  import('./todos/login.js').then(m => m.salir(['wiTema', 'wiSmart']).then(() => location.reload()));
+
+superFun(async () => {
+  const [{ auth }, { onAuthStateChanged }] = await Promise.all([import('./firebase.js'), import('firebase/auth')]);
+  onAuthStateChanged(auth, u => !u && wiAuth.user && _salir());
+});
+
+window.addEventListener('storage', e => (!e.key || e.key === 'wiSmile') && location.reload());
 
 // ── EVENTOS GLOBALES ──────────────────────────────────────────────────────────
 $(document).on('click', '.bt_salir', async () => {

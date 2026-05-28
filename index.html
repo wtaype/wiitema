@@ -43,7 +43,7 @@
       --fz_x3: clamp(2.9rem, 5vh, 3.9rem);
       --fz_x4: clamp(3.3rem, 5.9vh, 4.3rem);
       --fz_y1: clamp(3rem, 14vh, 8rem);
-      --bs_m: 0 0 0.3vh 0.1vh var(--F);
+      --bs_m: 0 0 0.3vh 0.1vh var(--white);
       --bs_l: 0 0.4vh 0.8vh rgba(0, 0, 0, 0.15);
       --tr_s: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       --tr_m: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -53,16 +53,13 @@
       --ff_R: 'Rubik', 'Segoe UI', system-ui;
       --gradient-dia: linear-gradient(135deg, #0EBEFF 0%, #29C72E 100%);
       --gradient-noche: linear-gradient(135deg, #21273B 0%, #7000FF 100%);
-      --F: #fff;
-      --0: #000;
-      --D: #ddd;
-      --G: #374151;
 
       --success: #3cd741;
       --error: #ff3849;
       --warning: #ffa726;
       --info: #00a8e6;
 
+      --white: #fff;
       --offline: #ddd;
       --Cielo: #0EBEFF;
       --Dulce: #FF5C69;
@@ -70,14 +67,6 @@
       --Oro: #FFDA34;
       --Mora: #7000FF;
       --Futuro: #21273B;
-      /* SmileBeneficios */
-      --sm_azul: #37a1dd;
-      --sm_amarillo: #FFD101;
-      --sm_rojo: #fe413b;
-      --sm_azul_d: #1d7fb8;
-      --sm_azul_l: #d0ecf9;
-      --sm_grad: linear-gradient(135deg, #37a1dd 0%, #1d7fb8 100%);
-      --sm_grad_y: linear-gradient(135deg, #FFD101 0%, #f5a623 100%);
     }
 
     :root[data-theme="Cielo"] {
@@ -489,7 +478,7 @@
     }
 
     .tema.mtha {
-      border-color: var(--F);
+      border-color: var(--white);
       box-shadow: 0 0 1.5vh rgba(255, 255, 255, 0.6), inset 0 0 0.5vh rgba(255, 255, 255, 0.3);
       transform: scale(1.01)
     }

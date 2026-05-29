@@ -13,7 +13,7 @@ const app = initializeApp({
 });
 
 if (typeof window !== 'undefined') {
-  if (import.meta.env.DEV) self.FIREBASE_APPCHECK_DEBUG_TOKEN = true; // Debug token para localhost/IP local
+  if (import.meta.env.VITE_DEV) self.FIREBASE_APPCHECK_DEBUG_TOKEN = true; // Debug token para localhost/IP local
   initializeAppCheck(app, {
     provider: new ReCaptchaV3Provider(import.meta.env.VITE_RECAPTCHA_WEB),
     isTokenAutoRefreshEnabled: true // Autorefresco en segundo plano para no impactar velocidad
